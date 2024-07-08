@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex w-full ">
+    <div className="min-h-screen flex w-full">
       <div className="flex flex-col items-start my-auto px-5 lg:px-20 gap-4 lg:gap-10 lg:w-[70vw]">
         <div className="text-4xl lg:text-[5.5vw] z-10 font-poppinsRegular lg:mt-20 text-white leading-none">
           The Future of APIs and AI is Connected with{" "}
