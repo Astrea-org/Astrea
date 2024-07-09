@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Explore from "./pages/api/Explore";
+import Explore from "./pages/Explore";
 import Navbar from "./components/Navbar";
-import Form from "./pages/api/multistep-form/Form";
+import Form from "./pages/form/Form";
 
 export default function App() {
   return (
@@ -12,7 +12,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/collections" element={<Explore />} />
-          <Route path="/form" element={<Form />} />
+          <Route path="/add-asset" element={<Form />} />
         </Routes>
       </BrowserRouter>
     </div>

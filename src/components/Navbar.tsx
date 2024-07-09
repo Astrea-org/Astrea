@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { ConnectButton } from "@arweave-wallet-kit/react";
 
 export default function Navbar() {
   const [scroll, setScroll] = useState(false);
@@ -64,12 +63,6 @@ export default function Navbar() {
           >
             DEMO
           </a> */}
-          <ConnectButton
-            profileModal={true}
-            showBalance={false}
-            showProfilePicture={true}
-            accent="black"
-          />
         </div>
         <div className="lg:hidden">
           <button onClick={handleMenuToggle} className="text-2xl">

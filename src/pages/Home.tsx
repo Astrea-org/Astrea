@@ -4,15 +4,15 @@ export default function Home() {
   return (
     <div className="min-h-screen flex w-full">
       <div className="flex flex-col items-start my-auto px-5 lg:px-20 gap-4 lg:gap-10 lg:w-[70vw]">
-        <div className="text-4xl lg:text-[5.5vw] z-10 font-poppinsRegular lg:mt-20 text-white leading-none">
-          The Future of APIs and AI is Connected with{" "}
+        <div className="text-4xl lg:text-[5vw] z-10 font-poppinsRegular lg:mt-20 text-white leading-none">
+          Future of Data Ownership and Content Monitization{" "}
           <span className="text-transparent font-poppinsSemiBold text-5xl lg:text-[6vw] text-stroke-DEFAULT lg:text-stroke-lg">
             Interweave
           </span>
         </div>
         <div className="text-white z-10 text-base lg:text-2xl font-poppinsRegular">
-          Build, connect, and monetize your data on a secure and transparent
-          onchain hub.
+          Own, Build, and Monetize your data on a secure and transparent onchain
+          hub.
         </div>
         <div className="z-30 flex flex-col lg:flex-row gap-10 text-white">
           <a href="/" target="_blank" className="">
