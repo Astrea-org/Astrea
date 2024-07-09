@@ -10,10 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@arweave-wallet-kit/arconnect-strategy": "^0.0.1-beta.4",
-    "@arweave-wallet-kit/core": "^0.0.1-beta.5",
-    "@arweave-wallet-kit/react": "^0.0.1-beta.3",
-    "@arweave-wallet-kit/styles": "^0.0.1-beta.3",
     "@headlessui/react": "^2.1.2",
     "@material-tailwind/react": "^2.1.9",
     "framer-motion": "^11.2.13",
