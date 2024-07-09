@@ -15,7 +15,7 @@ export default function Home() {
           Own, Build, and Monetize your data on a secure and transparent onchain
           hub.
         </div>
-        <div className="z-30 flex flex-col lg:flex-row gap-10 text-white">
+        <div className="z-30 flex lg:flex-row md:gap-10 gap-2 text-white">
           <a href="/" target="_blank" className="">
             <GlassButton content="Explore" />
           </a>

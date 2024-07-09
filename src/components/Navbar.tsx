@@ -126,7 +126,7 @@ export default function Navbar() {
       </div>
       {menuOpen && (
         <div
-          className={`lg:hidden flex flex-col items-center bg-white text-black py-4`}
+          className={`lg:hidden flex flex-col items-center text-black py-4 font-bold`}
         >
           <a href="" target="_blank" className="py-2">
             Github
