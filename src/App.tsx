@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Form from "./pages/form/Form";
 import LandingPage from "./pages/nft/LandingPage";
 import Profile from "./pages/Profile";
+import Footer from "./components/Footer";
 
 declare global {
   interface Window {
@@ -17,16 +18,19 @@ declare global {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-black overflow-x-clip">
-      <Navbar />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/add-asset" element={<Form />} />
-          <Route path="/nft" element={<LandingPage />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <>
+      <div className="min-h-screen bg-black overflow-x-clip">
+        <Navbar />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/add-asset" element={<Form />} />
+            <Route path="/nft" element={<LandingPage />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+      <Footer />
+    </>
   );
 }
