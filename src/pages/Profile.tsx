@@ -8,7 +8,7 @@ function Profile() {
         <>
           <div className="bg-white">
             <div className="max-w-screen-xl px-4 py-8 mx-auto mt-24">
-              <div className="flex justify-between">
+              <div className="md:flex justify-between">
                 <div className="flex gap-4">
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Cat_-1_%2826079853855%29.jpg/1200px-Cat_-1_%2826079853855%29.jpg"
@@ -17,7 +17,7 @@ function Profile() {
                   <div className="mt-6">
                     <p className="text-lg font-bold">Cat Chandak</p>
                     <p>@catxar</p>
-                    <p>0xwierh4739nfcksdkngf234en34s</p>
+                    <p>0xwierh4739nfcksdkngf234e2s</p>
                   </div>
                 </div>
                 <div>
