@@ -3,13 +3,13 @@ import logo from "../assets/images/logo_black.png";
 function Footer() {
   return (
     <>
-      <footer className="bg-white dark:bg-gray-900">
+      <footer className="bg-white mt-16">
         <div className="px-12 pb-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="" className="flex items-center">
                 <img src={logo} className="h-8 me-3" alt="Logo" />
-                <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                <span className="self-center text-2xl font-semibold whitespace-nowrap">
                   AssetX
                 </span>
               </a>

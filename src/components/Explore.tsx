@@ -1,6 +1,7 @@
 import { FaRegHeart } from "react-icons/fa6";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import { CiWallet } from "react-icons/ci";
 
 function Explore() {
   return (
@@ -41,7 +42,25 @@ function Explore() {
               </div>
             </div>
           </div>
-          <div>
+
+          <div className="bg-gray-100">
+            <div className="py-32 px-6">
+              <h1 className="text-2xl font-bold">Get started!</h1>
+              <p className="mt-2">
+                Qui ut exercitation officia proident enim non tempor tempor{" "}
+                <br />
+                ipsum ex nulla ea adipisicing sit consequat
+              </p>
+              <button className="border border-gray-400 p-2 mt-4 flex gap-2">
+                Connect Wallet
+                <span>
+                  <CiWallet className="mt-1" size={18} />
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-8">
             <div>
               <h1 className="text-2xl font-bold">Browse by Categories</h1>
             </div>
