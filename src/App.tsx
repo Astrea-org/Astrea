@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Explore from "./pages/Explore";
 import Navbar from "./components/Navbar";
 import Form from "./pages/form/Form";
 import LandingPage from "./pages/nft/LandingPage";
+import Profile from "./pages/Profile";
 
 declare global {
   interface Window {
@@ -22,9 +22,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/collections" element={<Explore />} />
           <Route path="/add-asset" element={<Form />} />
           <Route path="/nft" element={<LandingPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

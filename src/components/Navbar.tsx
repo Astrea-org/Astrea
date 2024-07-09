@@ -106,6 +106,16 @@ export default function Navbar() {
                   className="w-[14rem] origin-top-right rounded mt-2 border border-[#FFFFFF4D] bg-[#FFFFFF4D] p-1 text text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
                 >
                   <MenuItem>
+                    <a href="/profile">
+                      <button
+                        onClick={handleDisconnectWallet}
+                        className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3"
+                      >
+                        Profile
+                      </button>
+                    </a>
+                  </MenuItem>
+                  <MenuItem>
                     <button
                       onClick={handleDisconnectWallet}
                       className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3"
