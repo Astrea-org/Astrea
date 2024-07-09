@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 export default function Navbar() {
   const [scroll, setScroll] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeAddress, setActiveAddress] = useState<string>("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,21 +27,46 @@ export default function Navbar() {
     setMenuOpen(!menuOpen);
   };
 
+  const handleCurrentWallet = async () => {
+    const address = await window.arweaveWallet.getActiveAddress();
+    setActiveAddress(address);
+  };
+
+  const handleConnectWallet = async () => {
+    await window.arweaveWallet.connect(["ACCESS_ADDRESS", "SIGN_TRANSACTION"]);
+    handleCurrentWallet();
+  };
+
+  const handleDisconnectWallet = async () => {
+    await window.arweaveWallet.disconnect();
+    handleCurrentWallet();
+  };
+
+  useEffect(() => {
+    console.log("path:", window.location.pathname);
+  });
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
       <div
         className={`flex flex-row py-6 px-10 justify-between items-center font-poppinsRegular ${
-          scroll ? "bg-white text-black" : "text-white"
+          window.location.pathname === "/"
+            ? scroll
+              ? "bg-white text-black"
+              : "text-white bg-transparent"
+            : "text-black bg-white"
         }`}
       >
         <a href="/" className="flex flex-row gap-4 text-xl items-center">
           <div className="relative w-8 h-8">
             <img
-              src={`${
-                scroll
-                  ? "src/assets/images/logo_black.png"
-                  : "src/assets/images/logo.png"
-              }`}
+              src={`
+                ${
+                  window.location.pathname === "/"
+                    ? scroll
+                      ? "src/assets/images/logo_black.png"
+                      : "src/assets/images/logo.png"
+                    : "src/assets/images/logo_black.png"
+                }`}
               alt="logo"
             />
           </div>
@@ -56,13 +83,39 @@ export default function Navbar() {
           <a href="/">Whitepaper</a>
         </div>
         <div className="hidden lg:block">
-          {/* <a
-            href=""
-            target="_blank"
-            className="bg-white shadow-md hover:bg-gray-200 transition-all shadow-white text-black text-center font-poppinsThin rounded-xl px-10 py-2 text-lg lg:w-[12vw]"
-          >
-            DEMO
-          </a> */}
+          {activeAddress === "" ? (
+            <button
+              onClick={handleConnectWallet}
+              className="bg-white text-black hover:bg-transparent border-2 border-white hover:text-white hover:opacity-80 transition-all text-center font-poppinsThin rounded px-4 py-2 whitespace-nowrap"
+            >
+              Connect Wallet
+            </button>
+          ) : (
+            <div>
+              <Menu>
+                <MenuButton className="inline-flex truncate w-[10rem] items-center gap-2 rounded-md bg-[#FFFFFF26] py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF4D]">
+                  {/* <ChevronDownIcon className="size-4 fill-white/60" /> */}
+                  {activeAddress}
+                </MenuButton>
+
+                <MenuItems
+                  transition
+                  anchor="bottom end"
+                  className="w-52 origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                >
+                  <MenuItem>
+                    <button
+                      onClick={handleDisconnectWallet}
+                      className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10"
+                    >
+                      {/* <PencilIcon className="size-4 fill-white/30" /> */}
+                      Edit
+                    </button>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          )}
         </div>
         <div className="lg:hidden">
           <button onClick={handleMenuToggle} className="text-2xl">
