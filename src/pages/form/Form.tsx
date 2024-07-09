@@ -48,7 +48,7 @@ const Form: React.FC<FormProps> = () => {
           Next
         </button>
       </div>
-      <div className="absolute w-[60vh] top-0 left-0 right-0 bottom-0 mt-10">
+      <div className="absolute w-[60vh] top-0 left-0 right-0 bottom-0 mt-20">
         <div className="absolute inset-0 flex items-center rotate-90 ">
           <div className="w-full border-t-2 border-gray-200"></div>
         </div>

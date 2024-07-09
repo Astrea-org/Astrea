@@ -1,30 +1,27 @@
 import { motion } from "framer-motion";
+import { GlassButton } from "../components/GlassButton";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex w-full">
       <div className="flex flex-col items-start my-auto px-5 lg:px-20 gap-4 lg:gap-10 lg:w-[70vw]">
-        <div className="text-4xl lg:text-[5vw] z-10 font-poppinsRegular lg:mt-20 text-white leading-none">
-          Future of Data Ownership and Content Monitization{" "}
-          <span className="text-transparent font-poppinsSemiBold text-5xl lg:text-[6vw] text-stroke-DEFAULT lg:text-stroke-lg">
-            Interweave
+        <div className="text-4xl lg:text-[5vw] z-10 font-poppinsSemiBold font-semibold lg:mt-20 text-white leading-none">
+          Future of Data Ownership and Content Monetization{" "}
+          <span className="text-transparent font-poppinsRegular font-bold text-5xl lg:text-[6vw] text-stroke-DEFAULT lg:text-stroke-lg">
+            AssetX
           </span>
         </div>
-        <div className="text-white z-10 text-base lg:text-2xl font-poppinsRegular">
+        <div className="text-white z-10 text-base lg:text-2xl font-poppinsSemiBold">
           Own, Build, and Monetize your data on a secure and transparent onchain
           hub.
         </div>
         <div className="z-30 flex flex-col lg:flex-row gap-10 text-white">
           <a href="/" target="_blank" className="">
-            <div className="border-white border-2  hover:opacity-80 hover:scale-105 transition-all text-center font-poppinsThin rounded px-10 py-3 lg:text-xl lg:w-[12vw]">
-              Explore
-            </div>
+            <GlassButton content="Explore" />
           </a>
 
           <a href="/" target="_blank" className="">
-            <div className="border-white border-2  hover:opacity-80 hover:scale-105 transition-all text-center font-poppinsThin rounded px-10 py-3 lg:text-xl lg:w-[12vw]">
-              Dashboard
-            </div>
+            <GlassButton content="Dashboard" />
           </a>
         </div>
       </div>

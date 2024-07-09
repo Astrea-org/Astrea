@@ -72,7 +72,7 @@ export default function Navbar() {
               alt="logo"
             />
           </div>
-          Interweave
+          AssetX
         </a>
         <div className="hidden lg:flex flex-row items-center text-lg gap-10 font-poppinsThin">
           <a href="" target="_blank">
@@ -88,14 +88,14 @@ export default function Navbar() {
           {activeAddress === "" ? (
             <button
               onClick={handleConnectWallet}
-              className="w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF26] py-2 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF4D]"
+              className="w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF4D] py-2 px-3 text-sm/6 font-semibold text-white border-white border-[1.5px] shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF26]"
             >
               Connect Wallet
             </button>
           ) : (
             <div>
               <Menu>
-                <MenuButton className=" truncate w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF4D] py-2 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-[#FFFFFF26] transition-all focus:outline-none hover:bg-[#FFFFFF26]">
+                <MenuButton className=" truncate w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF4D] py-2 px-3 text-sm/6 font-semibold text-white border-white border-[1.5px] shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF26]">
                   <CgProfile className="w-8 h-8 inline-block mr-2" />
                   {activeAddress}
                 </MenuButton>
@@ -145,7 +145,7 @@ export default function Navbar() {
             target="_blank"
             className="bg-white shadow-md hover:bg-gray-200 transition-all shadow-white text-black text-center font-poppinsThin rounded-xl px-10 py-2 text-lg mt-4 w-3/4"
           >
-            DEMO
+            Connect Wallet
           </a>
         </div>
       )}
