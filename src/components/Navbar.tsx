@@ -39,9 +39,13 @@ export default function Navbar() {
   };
 
   const handleDisconnectWallet = async () => {
-    console.log("disconnecting wallet");
+    setActiveAddress("");
     await window.arweaveWallet.disconnect();
   };
+
+  useEffect(() => {
+    handleCurrentWallet();
+  }, []);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
