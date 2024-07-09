@@ -1,0 +1,28 @@
+<svg width="375" height="374.999991" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" version="1.0">
+ <defs>
+  <g id="svg_1"/>
+  <clipPath id="ce733b1edc">
+   <path clip-rule="nonzero" d="m251.09,225.6l7.82,0l0,7.82l-7.82,0l0,-7.82zm0,0" id="svg_2"/>
+  </clipPath>
+  <clipPath id="64dc606eaf">
+   <path clip-rule="nonzero" d="m255,225.6c-2.16,0 -3.91,1.75 -3.91,3.91c0,2.16 1.75,3.91 3.91,3.91c2.16,0 3.91,-1.75 3.91,-3.91c0,-2.16 -1.75,-3.91 -3.91,-3.91zm0,0" id="svg_3"/>
+  </clipPath>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <g fill="#1f2122" id="svg_4">
+   <g id="svg_5" transform="translate(97.1382 211.5)">
+    <g id="svg_6">
+     <path d="m-59.33,37.07l77.22,-148.91l77.17,148.91l-154.39,0zm0,0" id="svg_7"/>
+    </g>
+   </g>
+  </g>
+  <g fill="#1f2122" id="svg_8" transform="matrix(1 0 0 1 0 0)">
+   <g id="svg_9" transform="translate(179.635 211.5)">
+    <g id="svg_10">
+     <path d="m10.7,-109.74l137.21,0l-36.26,73.5l36.26,73.5l-137.21,0l36.24,-73.5l-36.24,-73.5zm0,0" id="svg_11"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

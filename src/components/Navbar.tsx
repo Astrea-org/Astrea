@@ -59,22 +59,22 @@ export default function Navbar() {
         }`}
       >
         <a href="/" className="flex flex-row gap-4 text-xl items-center">
-          <div className="relative w-8 h-8">
+          <div className="relative w-10 h-10">
             <img
               src={`
                 ${
                   window.location.pathname === "/"
                     ? scroll
-                      ? "src/assets/images/logo_black.png"
-                      : "src/assets/images/logo.png"
-                    : "src/assets/images/logo_black.png"
+                      ? "src/assets/images/logo_black.svg"
+                      : "src/assets/images/logo.svg"
+                    : "src/assets/images/logo_black.svg"
                 }`}
               alt="logo"
             />
           </div>
           AssetX
         </a>
-        <div className="hidden lg:flex flex-row items-center text-lg gap-10 font-poppinsThin">
+        <div className="hidden lg:flex flex-row items-center text gap-10 font-poppinsThin">
           <a href="" target="_blank">
             Github
           </a>
