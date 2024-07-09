@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Navbar from "./components/Navbar";
 import Form from "./pages/form/Form";
+import LandingPage from "./pages/nft/LandingPage";
 
 declare global {
   interface Window {
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/collections" element={<Explore />} />
           <Route path="/add-asset" element={<Form />} />
+          <Route path="/nft" element={<LandingPage />} />
         </Routes>
       </BrowserRouter>
     </div>
