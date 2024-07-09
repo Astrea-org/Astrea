@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { CgProfile } from "react-icons/cg";
 
 export default function Navbar() {
   const [scroll, setScroll] = useState(false);
@@ -38,13 +39,10 @@ export default function Navbar() {
   };
 
   const handleDisconnectWallet = async () => {
+    console.log("disconnecting wallet");
     await window.arweaveWallet.disconnect();
-    handleCurrentWallet();
   };
 
-  useEffect(() => {
-    console.log("path:", window.location.pathname);
-  });
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
       <div
@@ -86,30 +84,29 @@ export default function Navbar() {
           {activeAddress === "" ? (
             <button
               onClick={handleConnectWallet}
-              className="bg-white text-black hover:bg-transparent border-2 border-white hover:text-white hover:opacity-80 transition-all text-center font-poppinsThin rounded px-4 py-2 whitespace-nowrap"
+              className="w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF26] py-2 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF4D]"
             >
               Connect Wallet
             </button>
           ) : (
             <div>
               <Menu>
-                <MenuButton className="inline-flex truncate w-[10rem] items-center gap-2 rounded-md bg-[#FFFFFF26] py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF4D]">
-                  {/* <ChevronDownIcon className="size-4 fill-white/60" /> */}
+                <MenuButton className=" truncate w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF4D] py-2 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-[#FFFFFF26] transition-all focus:outline-none hover:bg-[#FFFFFF26]">
+                  <CgProfile className="w-8 h-8 inline-block mr-2" />
                   {activeAddress}
                 </MenuButton>
 
                 <MenuItems
                   transition
                   anchor="bottom end"
-                  className="w-52 origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                  className="w-[14rem] origin-top-right rounded mt-2 border border-[#FFFFFF4D] bg-[#FFFFFF4D] p-1 text text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
                 >
                   <MenuItem>
                     <button
                       onClick={handleDisconnectWallet}
-                      className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10"
+                      className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3"
                     >
-                      {/* <PencilIcon className="size-4 fill-white/30" /> */}
-                      Edit
+                      Disconnect Wallet
                     </button>
                   </MenuItem>
                 </MenuItems>

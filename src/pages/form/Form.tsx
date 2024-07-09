@@ -7,14 +7,9 @@ import License from "./steps/License";
 type FormProps = {};
 
 const Form: React.FC<FormProps> = () => {
-  const [activeStep, setActiveStep] = useState<number>(0);
-  const [isLastStep, setIsLastStep] = useState<boolean>(false);
-  const [isFirstStep, setIsFirstStep] = useState<boolean>(true);
-
-  useEffect(() => {
-    setIsLastStep(activeStep === 2);
-    setIsFirstStep(activeStep === 0);
-  }, [activeStep]);
+  const [activeStep, setActiveStep] = useState(0);
+  const [isLastStep, setIsLastStep] = useState(false);
+  const [isFirstStep, setIsFirstStep] = useState(false);
 
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
@@ -32,30 +27,12 @@ const Form: React.FC<FormProps> = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("activeStep:", activeStep);
+  }, [activeStep]);
   return (
-    <div className="w-full py-4 px-8 pt-28 bg-white">
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t-2 border-gray-200"></div>
-        </div>
-        <Stepper activeStep={activeStep}>
-          {["1", "2", "3"].map((label, index) => (
-            <Step
-              key={index}
-              onClick={() => setActiveStep(index)}
-              className={`relative z-10 flex items-center justify-center w-10 h-10 rounded-full cursor-pointer ${
-                activeStep === index
-                  ? "bg-black text-white"
-                  : "bg-gray-300 text-black"
-              }`}
-            >
-              {label}
-            </Step>
-          ))}
-        </Stepper>
-      </div>
-      <div className="mt-6">{renderStepContent(activeStep)}</div>
-      <div className="mt-16 flex justify-between">
+    <div className="w-full px-8 pt-28 bg-white flex flex-col min-h-screen">
+      <div className="flex justify-end gap-10 h-10">
         <button
           className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
           onClick={handlePrev}
@@ -71,6 +48,70 @@ const Form: React.FC<FormProps> = () => {
           Next
         </button>
       </div>
+      <div className="absolute w-[60vh] top-0 left-0 right-0 bottom-0 mt-10">
+        <div className="absolute inset-0 flex items-center rotate-90 ">
+          <div className="w-full border-t-2 border-gray-200"></div>
+        </div>
+        <Stepper
+          activeStep={activeStep}
+          placeholder=""
+          onPointerEnterCapture={() => {}}
+          onPointerLeaveCapture={() => {}}
+          isLastStep={(value) => setIsLastStep(value)}
+          isFirstStep={(value) => setIsFirstStep(value)}
+          className="absolute inset-0 rotate-90"
+        >
+          <div>
+            <Step
+              onClick={() => setActiveStep(0)}
+              className={`relative z-30 flex items-center justify-center p-8 rounded-xl cursor-pointer -rotate-90
+                ${
+                  activeStep === 0
+                    ? "bg-black text-white"
+                    : "bg-gray-300 text-gray-600"
+                }`}
+              placeholder="0"
+              onPointerEnterCapture={() => {}}
+              onPointerLeaveCapture={() => {}}
+            >
+              1
+            </Step>
+          </div>
+          <div>
+            <Step
+              onClick={() => setActiveStep(1)}
+              className={`relative z-30 flex items-center justify-center p-8 rounded-xl cursor-pointer -rotate-90
+                ${
+                  activeStep === 1
+                    ? "bg-black text-white"
+                    : "bg-gray-300 text-gray-600"
+                }`}
+              placeholder="1"
+              onPointerEnterCapture={() => {}}
+              onPointerLeaveCapture={() => {}}
+            >
+              2
+            </Step>
+          </div>
+          <div>
+            <Step
+              onClick={() => setActiveStep(2)}
+              className={`relative z-30 flex items-center justify-center p-8 rounded-xl cursor-pointer -rotate-90
+                ${
+                  activeStep === 2
+                    ? "bg-black text-white"
+                    : "bg-gray-300 text-gray-600"
+                }`}
+              placeholder="2"
+              onPointerEnterCapture={() => {}}
+              onPointerLeaveCapture={() => {}}
+            >
+              3
+            </Step>
+          </div>
+        </Stepper>
+      </div>
+      <div className="">{renderStepContent(activeStep)}</div>
     </div>
   );
 };
