@@ -3,38 +3,61 @@ import React from "react";
 export default function Details() {
   return (
     <>
-      <div className="text-white">
-        <h1 className="text-3xl font-bold">Collection Details</h1>
-        <form action="" className="mt-4">
-          <div className="flex flex-col">
-            <label htmlFor="" className="text-xl">
-              Title*
-            </label>
-            <input
-              type="text"
-              value=""
-              required
-              className="w-[450px] mt-1 rounded-md h-10"
-            />
-          </div>
-          <div className="flex flex-col mt-3">
-            <label htmlFor="" className="text-xl">
-              Description*
-            </label>
-            <input
-              type="text"
-              value=""
-              required
-              className="w-[450px] mt-1 rounded-md h-32"
-            />
-          </div>
-          <div>
-            <p className="text-lg font-semibold mt-3">
-              Note: Details entered below will only apply to newly created
-              assets, <br /> existing assets will not be modified.
-            </p>
-          </div>
-        </form>
+      <div className="flex flex-col justify-center items-center font-poppinsRegular">
+        <div className="bg-white shadow-2xl px-3 py-6 w-[700px] border border-gray-300 rounded-lg">
+          <h1 className="text-3xl font-bold text-center font-poppinsSemiBold">
+            Collection Details
+          </h1>
+          <form
+            action=""
+            className="mt-4 flex flex-col items-start w-full px-5"
+          >
+            <div className="flex flex-col w-full">
+              <label htmlFor="title" className="text-xl font-semibold">
+                Title*
+              </label>
+              <input
+                id="title"
+                type="text"
+                value=""
+                required
+                className="w-full mt-1 rounded-md h-10 border border-gray-500"
+              />
+            </div>
+            <div className="flex flex-col mt-3 w-full">
+              <label htmlFor="description" className="text-xl font-semibold">
+                Description*
+              </label>
+              <input
+                id="description"
+                type="text"
+                value=""
+                required
+                className="w-full mt-1 rounded-md h-32 border border-gray-500"
+              />
+            </div>
+            <div className="w-full mt-3">
+              <p>
+                Note: Details entered below will only apply to newly created{" "}
+                <br />
+                assets, existing assets will not be modified.
+              </p>
+            </div>
+            <div className="bg-gray-300 p-5 mt-3 w-full border-black border rounded-lg">
+              <p className="font-bold">
+                These assets will use fractionalized tokens
+              </p>
+              <p className="font-bold mt-2">Fractional tokens *</p>
+              <input
+                type="number"
+                className="mt-1 rounded-md border border-gray-300 p-1"
+              />
+            </div>
+            <div className="mt-3">
+              <p className="font-bold">These assets will be transferable ✅</p>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );
