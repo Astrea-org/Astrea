@@ -26,7 +26,7 @@ export default function Form() {
   };
 
   return (
-    <div className="w-full py-4 px-8">
+    <div className="w-full py-4 px-8 pt-28">
       <Stepper
         activeStep={activeStep}
         isLastStep={(value) => setIsLastStep(value)}
@@ -61,16 +61,16 @@ export default function Form() {
           3
         </Step>
       </Stepper>
-      <div className="mt-16">{renderStepContent(activeStep)}</div>
+      <div className="mt-6">{renderStepContent(activeStep)}</div>
       <div className="mt-16 flex justify-between">
         <button
-          className="bg-black"
+          className="bg-white"
           onClick={handlePrev}
           disabled={isFirstStep}
         >
           Prev
         </button>
-        <button onClick={handleNext} disabled={isLastStep}>
+        <button onClick={handleNext} disabled={isLastStep} className="bg-white">
           Next
         </button>
       </div>
