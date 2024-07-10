@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function Asset() {
   const [activeTab, setActiveTab] = useState("market");
