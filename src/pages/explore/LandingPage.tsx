@@ -1,3 +1,5 @@
+import { TbListDetails } from "react-icons/tb";
+
 function LandingPage() {
   return (
     <>
@@ -45,6 +47,26 @@ function LandingPage() {
           <p className="text-lg">
             Checkout our weekly updated trending collection.
           </p>
+          <a href="/asset/sd2efs" className="text-white">
+            <div className="mt-12 bg-[#3B3B3B] rounded-xl w-52">
+              <img
+                src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
+                alt=""
+                className="w-full h-auto rounded-t-xl"
+              />
+              <div className="py-4 px-3">
+                <div className="flex justify-between">
+                  <p className="text-white">Cats</p>
+                  <span>
+                    <TbListDetails />
+                  </span>
+                </div>
+                <div className="mt-2">
+                  <p>0.001 AR</p>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       </section>
     </>

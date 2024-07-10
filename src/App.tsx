@@ -6,7 +6,7 @@ import LandingPage from "./pages/explore/LandingPage";
 import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
-import Asset from "./pages/nft/Asset";
+import Asset from "./pages/explore/Asset";
 
 declare global {
   interface Window {
