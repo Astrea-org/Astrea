@@ -9,10 +9,6 @@ function Asset() {
   const [activeTab, setActiveTab] = useState("market");
   const [activeMarketTab, setActiveMarketTab] = useState("getData");
 
-  const handleTabClick = (tabName: any) => {
-    setActiveTab(tabName);
-  };
-
   const handleMarketTabClick = (tabName: any) => {
     setActiveMarketTab(tabName);
   };
