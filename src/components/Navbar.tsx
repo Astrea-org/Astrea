@@ -47,6 +47,10 @@ export default function Navbar() {
     handleCurrentWallet();
   }, []);
 
+  useEffect(() => {
+    console.log(window.location.pathname === "/" && scroll);
+  });
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
       <div
@@ -88,14 +92,29 @@ export default function Navbar() {
           {activeAddress === "" ? (
             <button
               onClick={handleConnectWallet}
-              className="w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF4D] py-2 px-3 text-sm/6 font-semibold text-white border-white border-[1.5px] shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF26]"
+              className={`w-[15rem] items-center gap-2 rounded-md py-2 px-3 text-sm/6 font-semibold border-[1.5px] shadow-inner  focus:outline-none 
+              ${
+                window.location.pathname === "/"
+                  ? scroll
+                    ? "bg-[#0000004D] text-black border-black shadow-black/10 hover:bg-[#00000026]"
+                    : "bg-[#FFFFFF4D] text-white border-white shadow-white/10 hover:bg-[#FFFFFF26]"
+                  : "bg-[#0000004D] text-black border-black shadow-black/10 hover:bg-[#00000026]"
+              }`}
             >
               Connect Wallet
             </button>
           ) : (
             <div>
               <Menu>
-                <MenuButton className=" truncate w-[15rem] items-center gap-2 rounded-md bg-[#FFFFFF4D] py-2 px-3 text-sm/6 font-semibold text-white border-white border-[1.5px] shadow-inner shadow-white/10 focus:outline-none hover:bg-[#FFFFFF26]">
+                <MenuButton
+                  className={` truncate w-[15rem] items-center gap-2 rounded-md py-2 px-3 text-sm/6 font-semibold  border-[1px] shadow-inner focus:outline-none ${
+                    window.location.pathname === "/"
+                      ? scroll
+                        ? "bg-[#00000026] text-black border-black shadow-black/10 hover:bg-[#00000026]"
+                        : "bg-[#FFFFFF4D] text-white border-white shadow-white/10 hover:bg-[#FFFFFF26]"
+                      : "bg-[#00000026] text-black border-black shadow-black/10 hover:bg-[#00000026]"
+                  }`}
+                >
                   <CgProfile className="w-8 h-8 inline-block mr-2" />
                   {activeAddress}
                 </MenuButton>
@@ -103,7 +122,13 @@ export default function Navbar() {
                 <MenuItems
                   transition
                   anchor="bottom end"
-                  className="w-[14rem] origin-top-right rounded mt-2 border border-[#FFFFFF4D] bg-[#FFFFFF4D] p-1 text text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+                  className={`z-[100] w-[14rem] origin-top-right rounded mt-2 border p-1 text transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 ${
+                    window.location.pathname === "/"
+                      ? scroll
+                        ? "bg-[#00000026] text-black border-black shadow-black/10 hover:bg-[#00000026]"
+                        : "bg-[#FFFFFF4D] text-white border-white shadow-white/10 hover:bg-[#FFFFFF26]"
+                      : "bg-[#00000026] text-black border-black shadow-black/10 hover:bg-[#00000026]"
+                  }`}
                 >
                   <MenuItem>
                     <a href="/profile">
