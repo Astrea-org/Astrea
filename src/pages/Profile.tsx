@@ -19,7 +19,7 @@ function Profile() {
 
   useEffect(() => {
     handleCurrentWallet();
-  }, []);
+  }, [activeAddress]);
 
   const fetchProfile = async () => {
     const res = await fetchUserByAddress(activeAddress);
@@ -53,8 +53,10 @@ function Profile() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsFetching(true);
-    await registerProfile();
+    if (activeAddress) {
+      setIsFetching(true);
+      await registerProfile();
+    }
   };
   useEffect(() => {
     if (activeAddress) {
@@ -65,14 +67,12 @@ function Profile() {
 
   return (
     <>
-      {isFetching ? (
-        <p>Loading...</p>
-      ) : profile ? (
+      {profile ? (
         <div className="bg-white min-h-screen pt-52">
           <h1 className="text-3xl text-white">kirtan</h1>
         </div>
       ) : (
-        <div className="bg-white min-h-screen flex flex-col justify-center items-center mt-12">
+        <div className="bg-white min-h-screen flex flex-col justify-center items-center mt-12 text-black">
           <h1 className="font-bold text-2xl">Create Profile</h1>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col mt-8">
