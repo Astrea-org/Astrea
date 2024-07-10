@@ -89,7 +89,7 @@ export default function Navbar() {
           <a href="/">Whitepaper</a>
         </div>
         <div className="hidden lg:block">
-          {activeAddress === "" ? (
+          {activeAddress === null ? (
             <button
               onClick={handleConnectWallet}
               className={`w-[15rem] items-center gap-2 rounded-md py-2 px-3 text-sm/6 font-semibold border-[1.5px] shadow-inner  focus:outline-none 
