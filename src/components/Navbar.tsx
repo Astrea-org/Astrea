@@ -69,9 +69,9 @@ export default function Navbar() {
                 ${
                   window.location.pathname === "/"
                     ? scroll
-                      ? "src/assets/images/logo_black.svg"
-                      : "src/assets/images/logo.svg"
-                    : "src/assets/images/logo_black.svg"
+                      ? "/images/logo_black.svg"
+                      : "/images/logo.svg"
+                    : "/images/logo_black.svg"
                 }`}
               alt="logo"
             />
