@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { CiMenuBurger } from "react-icons/ci";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
@@ -8,10 +8,43 @@ import udl from "../../assets/udl.png";
 function Asset() {
   const [activeTab, setActiveTab] = useState("market");
   const [activeMarketTab, setActiveMarketTab] = useState("getData");
-  console.log(setActiveTab);
+  const [open, setOpen] = useState(true);
 
   const handleMarketTabClick = (tabName: any) => {
     setActiveMarketTab(tabName);
+  };
+
+  const sampleJson = {
+    proof: {
+      scheme: "g16",
+      curve: "bn128",
+      proof: {
+        a: [
+          "0x23b2a19ec32e4184f3995a328789726b14c8c08bef1e92d8b",
+          "0x2c4d692f6b441ab1ec7aec80485620194181a3abc5deac1d5",
+        ],
+        b: [
+          [
+            "0x2d33be0cf25f7680adc7d593170c8648b2c4dcef59ae7df8",
+            "0x06e68f76220c9ff990d73fffdca97bd482f43c9337c4cf14",
+          ],
+          [
+            "0x239eda10b3c839f10748a932f4fa9dc4d5ffae07fdf3ba885",
+            "0x0b86a3d8df3a322638204aef842c48954812fcc129de52235",
+          ],
+        ],
+        c: [
+          "0x18ed7567dfa7193c9be68fb2a8d61b13782bc173c0a2de79caa6",
+          "0x03b87587fcf2aae2504cdd0a0d8c629f928e31abf1296df5c666",
+        ],
+      },
+      inputs: [
+        "0x0000000000000000000000000000000000000338beba6414a3179f2",
+        "0x0000000000000000000000000000000000000198a544ad1040ee842",
+        "0x000000000000000000000000000000002db1bf988311e4ce2e28b8f",
+        "0x00000000000000000000000000000000109ab7a7be3b4945ee2f979",
+      ],
+    },
   };
 
   return (
@@ -19,11 +52,58 @@ function Asset() {
       <div className="mt-32 my-auto px-5 lg:px-24 gap-4 lg:gap-10 flex">
         <div className="w-[50%]">
           <div className="flex justify-center items-center">
-            <img
-              src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
-              alt=""
-              className="w-80 rounded-lg"
-            />
+            <table className="w-full min-w-max table-auto text-left">
+              <thead>
+                <tr>
+                  {TABLE_HEAD.map((head) => (
+                    <th
+                      key={head}
+                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                    >
+                      <p
+                        color="blue-gray"
+                        className="font-normal leading-none opacity-70"
+                      >
+                        {head}
+                      </p>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {TABLE_ROWS.map(({ name, job, date }, index) => {
+                  const isLast = index === TABLE_ROWS.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-blue-gray-50";
+
+                  return (
+                    <tr key={name}>
+                      <td className={classes}>
+                        <p color="blue-gray" className="font-normal">
+                          {name}
+                        </p>
+                      </td>
+                      <td className={classes}>
+                        <p color="blue-gray" className="font-normal">
+                          {job}
+                        </p>
+                      </td>
+                      <td className={classes}>
+                        <p color="blue-gray" className="font-normal">
+                          {date}
+                        </p>
+                      </td>
+                      <td className={classes}>
+                        <p color="blue-gray" className="font-medium">
+                          Edit
+                        </p>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
 
           <div className="border border-gray-400 h-52 p-3 rounded-lg mt-6">
@@ -165,6 +245,22 @@ function Asset() {
               </div>
             )}
           </div>
+          <div className="border border-gray-400 mt-3 rounded-lg p-8">
+            <button
+              onClick={() => setOpen(!open)}
+              className="text-lg font-bold mb-3 flex justify-between"
+            >
+              Sample JSON Data
+              <span className="mt-1">
+                <MdKeyboardArrowDown />
+              </span>
+            </button>
+            {open && (
+              <>
+                <pre>{JSON.stringify(sampleJson, null, 2)}</pre>
+              </>
+            )}
+          </div>
           <div className="mt-8"></div>
         </div>
       </div>
@@ -173,3 +269,33 @@ function Asset() {
 }
 
 export default Asset;
+
+const TABLE_HEAD = ["Name", "Job", "Employed", ""];
+
+const TABLE_ROWS = [
+  {
+    name: "John Michael",
+    job: "Manager",
+    date: "23/04/18",
+  },
+  {
+    name: "Alexa Liras",
+    job: "Developer",
+    date: "23/04/18",
+  },
+  {
+    name: "Laurent Perrier",
+    job: "Executive",
+    date: "19/09/17",
+  },
+  {
+    name: "Michael Levi",
+    job: "Developer",
+    date: "24/12/08",
+  },
+  {
+    name: "Richard Gran",
+    job: "Manager",
+    date: "04/10/21",
+  },
+];

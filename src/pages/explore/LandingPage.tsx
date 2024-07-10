@@ -27,21 +27,6 @@ function LandingPage() {
           </div>
         </div>
         <div className="max-w-screen-xl px-4 py-8 mx-auto">
-          <h1 className="text-2xl font-bold">Browse Categories</h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="mt-12 bg-[#3B3B3B] rounded-xl w-52">
-              <img
-                src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
-                alt=""
-                className="w-full h-auto rounded-t-xl"
-              />
-              <div className="py-4 px-3">
-                <p className="text-white">Cats</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-screen-xl px-4 py-8 mx-auto">
           <h1 className="text-2xl font-bold">Trending Collection</h1>
           <p className="text-lg">
             Checkout our weekly updated trending collection.
