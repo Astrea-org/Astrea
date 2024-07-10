@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  createDataItemSigner,
-  message,
-  result,
-  dryrun,
-} from "@permaweb/aoconnect";
 import toast from "react-hot-toast";
+import { fetchUserByAddress } from "../api/user";
+import { UserProfile } from "../types";
 
 interface Author {
   PID: string;
@@ -27,58 +23,24 @@ interface RegisterResult {
 function Profile() {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [isFetching, setIsFetching] = useState(false);
-  const processId = "iJ8bCUv-RGfWYF-fiGS_A_4d7fUtSwy9su9IcS48n2c";
-
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const handleCurrentWallet = async () => {
     const address = await window.arweaveWallet.getActiveAddress();
     setActiveAddress(address);
-  };
-
-  const checkUserRegistered = async () => {
-    console.log("Active address:", activeAddress);
-    try {
-      const mid = await message({
-        process: processId,
-        tags: [
-          { name: "Target", value: "ao.id" },
-          { name: "Action", value: "get-profile-by-wallet-address" },
-          { name: "wallet_address", value: activeAddress },
-        ],
-        signer: createDataItemSigner(window.arweaveWallet),
-      });
-
-      let { Messages, Spawns, Output, Error } = await result({
-        message: mid,
-        process: processId,
-      });
-      console.log("Response received:", typeof Messages[0].Data);
-
-      if (typeof Messages[0].Data === "string") {
-        const parsedRes = JSON.parse(Messages[0].Data);
-
-        console.log("res par", parsedRes);
-        if (parsedRes.Data) {
-          const profile = JSON.parse(parsedRes.Data);
-          if (profile.PID) {
-            console.log("Profile found:", profile);
-          } else {
-            console.log("Profile not found.");
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Error occurred:", err);
-    }
   };
 
   useEffect(() => {
     handleCurrentWallet();
   }, []);
 
+  const fetchProfile = async () => {
+    const res = await fetchUserByAddress(activeAddress);
+    setProfile(res);
+  };
   useEffect(() => {
     if (activeAddress) {
       setIsFetching(true);
-      checkUserRegistered();
+      fetchProfile();
     }
   }, [activeAddress]);
 
