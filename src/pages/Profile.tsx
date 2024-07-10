@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { fetchUserByAddress } from "../api/user";
 import { UserProfile } from "../types";
 import { AiOutlineAccountBook } from "react-icons/ai";
+import { PROCCESSID } from "../types";
 
 function Profile() {
   const [activeAddress, setActiveAddress] = useState<string>("");
@@ -45,7 +46,7 @@ function Profile() {
 
       // Step 2: Send message to register profile
       const mid = await message({
-        process: processId,
+        process: PROCCESSID.profile,
         tags: [
           { name: "Action", value: "Register" },
           { name: "Target", value: "ao.id" },
