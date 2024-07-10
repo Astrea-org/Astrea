@@ -37,34 +37,34 @@ function Profile() {
   const checkUserRegistered = async () => {
     console.log("Active address:", activeAddress);
     try {
-      const res = await message({
+      const mid = await message({
         process: processId,
         tags: [
           { name: "Target", value: "ao.id" },
           { name: "Action", value: "get-profile-by-wallet-address" },
+          { name: "wallet_address", value: activeAddress },
         ],
-        data: JSON.stringify({ wallet_address: activeAddress }),
         signer: createDataItemSigner(window.arweaveWallet),
       });
 
-      console.log("Response received:", res);
+      let { Messages, Spawns, Output, Error } = await result({
+        message: mid,
+        process: processId,
+      });
+      console.log("Response received:", typeof Messages[0].Data);
 
-      if (typeof res === "string") {
-        const parsedRes = JSON.parse(res);
+      if (typeof Messages[0].Data === "string") {
+        const parsedRes = JSON.parse(Messages[0].Data);
 
+        console.log("res par", parsedRes);
         if (parsedRes.Data) {
           const profile = JSON.parse(parsedRes.Data);
           if (profile.PID) {
             console.log("Profile found:", profile);
-            // Optionally, you can set profile data in state or trigger further actions
           } else {
             console.log("Profile not found.");
           }
-        } else {
-          console.log("No Data field in response:", parsedRes);
         }
-      } else {
-        console.log("Unexpected response format:", res);
       }
     } catch (err) {
       console.error("Error occurred:", err);
@@ -76,7 +76,7 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    if (activeAddress != "") {
+    if (activeAddress) {
       setIsFetching(true);
       checkUserRegistered();
     }

@@ -6,7 +6,7 @@ import { CgProfile } from "react-icons/cg";
 export default function Navbar() {
   const [scroll, setScroll] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeAddress, setActiveAddress] = useState<string>("");
+  const [activeAddress, setActiveAddress] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   const handleDisconnectWallet = async () => {
-    setActiveAddress("");
+    setActiveAddress(null);
     await window.arweaveWallet.disconnect();
   };
 
