@@ -28,17 +28,6 @@ function Profile() {
 
   const registerProfile = async () => {
     try {
-      // // Step 1: Prepare registration data
-      // const formData = {
-      //   Action: "Register",
-      //   From: "ao.id",
-      //   wallet_address: activeAddress,
-      //   username,
-      //   profile_img: profileImg,
-      //   bio,
-      // };
-
-      // // Step 2: Send message to register profile
       const mid = await message({
         process: PROCCESSID.profile,
         tags: [
@@ -79,8 +68,8 @@ function Profile() {
       {isFetching ? (
         <p>Loading...</p>
       ) : profile ? (
-        <div className="bg-white max-w-screen-xl px-4 py-8 mx-auto mt-24">
-          {/* Render profile information */}
+        <div className="bg-white min-h-screen pt-52">
+          <h1 className="text-3xl text-white">kirtan</h1>
         </div>
       ) : (
         <div className="bg-white min-h-screen flex flex-col justify-center items-center mt-12">

@@ -3,7 +3,7 @@ import { Stepper, Step } from "@material-tailwind/react";
 import Details from "./steps/Details";
 import Verification from "./steps/Verification";
 import License from "./steps/License";
-import { FormProvider, useFormContext } from "./FormContext";
+import { FormProvider } from "./FormContext";
 
 type FormProps = {};
 

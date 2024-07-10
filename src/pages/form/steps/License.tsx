@@ -10,7 +10,7 @@ export default function License() {
     formData.details.license || ""
   );
 
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     setFormData({
       ...formData,
       details: { ...formData.details, license: selectedLicense },
