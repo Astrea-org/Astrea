@@ -1,4 +1,4 @@
-import React from "react";
+import { TbListDetails } from "react-icons/tb";
 
 function LandingPage() {
   return (
@@ -47,6 +47,24 @@ function LandingPage() {
           <p className="text-lg">
             Checkout our weekly updated trending collection.
           </p>
+          <a href="/asset/3edfv" className="mt-4 text-white">
+            <div className="mt-12 bg-[#3B3B3B] rounded-xl w-52">
+              <img
+                src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
+                alt=""
+                className="w-full h-auto rounded-t-xl"
+              />
+              <div className="py-4 px-3 flex justify-between">
+                <p className="text-white">Cats</p>
+                <span>
+                  <TbListDetails color="white" />
+                </span>
+              </div>
+              <div className="px-3 pb-2">
+                <p>0.001AR</p>
+              </div>
+            </div>
+          </a>
         </div>
       </section>
     </>

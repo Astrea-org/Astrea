@@ -6,6 +6,7 @@ import LandingPage from "./pages/nft/LandingPage";
 import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
+import Asset from "./pages/nft/Asset";
 
 declare global {
   interface Window {
@@ -26,7 +27,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/add-asset" element={<Form />} />
-            <Route path="/nft" element={<LandingPage />} />
+            <Route path="/assets" element={<LandingPage />} />
+            <Route path="/asset/:id" element={<Asset />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
