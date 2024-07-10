@@ -8,6 +8,7 @@ import udl from "../../assets/udl.png";
 function Asset() {
   const [activeTab, setActiveTab] = useState("market");
   const [activeMarketTab, setActiveMarketTab] = useState("getData");
+  console.log(setActiveTab);
 
   const handleMarketTabClick = (tabName: any) => {
     setActiveMarketTab(tabName);
