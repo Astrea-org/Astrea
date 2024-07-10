@@ -14,3 +14,9 @@ export type UserProfile = {
 export enum PROCCESSID {
   profile = "iJ8bCUv-RGfWYF-fiGS_A_4d7fUtSwy9su9IcS48n2c",
 }
+
+export const CONTENT_TYPES = {
+  json: "application/json",
+  mp4: "video/mp4",
+  textPlain: "text/plain",
+};

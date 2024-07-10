@@ -1,9 +1,4 @@
-import {
-  createDataItemSigner,
-  message,
-  result,
-  dryrun,
-} from "@permaweb/aoconnect";
+import { createDataItemSigner, dryrun } from "@permaweb/aoconnect";
 import { PROCCESSID, UserProfile } from "../types";
 
 export const fetchUserByAddress = async (

@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  createDataItemSigner,
-  message,
-  result,
-  dryrun,
-} from "@permaweb/aoconnect";
+import { createDataItemSigner, message } from "@permaweb/aoconnect";
 import toast from "react-hot-toast";
 import { fetchUserByAddress } from "../api/user";
 import { UserProfile } from "../types";
-import { AiOutlineAccountBook } from "react-icons/ai";
 import { PROCCESSID } from "../types";
 
 function Profile() {
@@ -34,17 +28,17 @@ function Profile() {
 
   const registerProfile = async () => {
     try {
-      // Step 1: Prepare registration data
-      const formData = {
-        Action: "Register",
-        From: "ao.id",
-        wallet_address: activeAddress,
-        username,
-        profile_img: profileImg,
-        bio,
-      };
+      // // Step 1: Prepare registration data
+      // const formData = {
+      //   Action: "Register",
+      //   From: "ao.id",
+      //   wallet_address: activeAddress,
+      //   username,
+      //   profile_img: profileImg,
+      //   bio,
+      // };
 
-      // Step 2: Send message to register profile
+      // // Step 2: Send message to register profile
       const mid = await message({
         process: PROCCESSID.profile,
         tags: [

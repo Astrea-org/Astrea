@@ -28,7 +28,7 @@ function Explore() {
             <div className="mt-8 pb-12">
               <div className="bg-white shadow-lg w-52">
                 <img
-                  src="https://images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                  src="https:/images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
                   alt=""
                   className="w-full h-auto "
                 />
