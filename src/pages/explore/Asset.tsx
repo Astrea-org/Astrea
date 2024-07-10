@@ -7,7 +7,7 @@ import udl from "../../assets/udl.png";
 
 function Asset() {
   const [activeTab, setActiveTab] = useState("market");
-  const [activeMarketTab, setActiveMarketTab] = useState("buy");
+  const [activeMarketTab, setActiveMarketTab] = useState("getData");
 
   const handleTabClick = (tabName: any) => {
     setActiveTab(tabName);
@@ -20,12 +20,15 @@ function Asset() {
   return (
     <div className="bg-white min-h-screen font-poppinsRegular">
       <div className="mt-32 my-auto px-5 lg:px-24 gap-4 lg:gap-10 flex">
-        <div>
-          <img
-            src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
-            alt=""
-            className="w-80 rounded-lg"
-          />
+        <div className="w-[50%]">
+          <div className="flex justify-center items-center">
+            <img
+              src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
+              alt=""
+              className="w-80 rounded-lg"
+            />
+          </div>
+
           <div className="border border-gray-400 h-52 p-3 rounded-lg mt-6">
             <div className="flex justify-between">
               <p className="font-bold flex gap-1">
@@ -103,10 +106,10 @@ function Asset() {
             </div>
           </div>
         </div>
-        <div>
+        <div className="w-[50%]">
           <div className="border border-gray-400 h-52 p-5 rounded-lg">
             <p className="text-xl font-bold">
-              _marko_b_httpss.mj.runzJDC5hojEos_a_simple_vector_like_illust_7963a558-688c-450e-9e2d-4544d76b8f35_1
+              _marko_b_httpss.mj.runzJDC5hojEos_a_simple_vector_like_illu
             </p>
             <p className="underline text-gray-500 mt-2">Viewblock</p>
             <p className="mt-3">
@@ -150,29 +153,23 @@ function Asset() {
                 <div className="flex gap-24">
                   <button
                     className={`border border-gray-400 px-6 py-2 rounded-lg ${
-                      activeMarketTab === "buy" ? "underline bg-gray-300" : ""
-                    }`}
-                    onClick={() => handleMarketTabClick("buy")}
-                  >
-                    Buy
-                  </button>
-                  <button
-                    className={`border border-gray-400 px-6 py-2 rounded-lg ${
-                      activeMarketTab === "sell" ? "underline bg-gray-300" : ""
-                    }`}
-                    onClick={() => handleMarketTabClick("sell")}
-                  >
-                    Sell
-                  </button>
-                  <button
-                    className={`border border-gray-400 px-6 py-2 rounded-lg ${
-                      activeMarketTab === "transfer"
+                      activeMarketTab === "getData"
                         ? "underline bg-gray-300"
                         : ""
                     }`}
-                    onClick={() => handleMarketTabClick("transfer")}
+                    onClick={() => handleMarketTabClick("getData")}
                   >
-                    Transfer
+                    Get Data
+                  </button>
+                  <button
+                    className={`border border-gray-400 px-6 py-2 rounded-lg ${
+                      activeMarketTab === "transferOwnership"
+                        ? "underline bg-gray-300"
+                        : ""
+                    }`}
+                    onClick={() => handleMarketTabClick("transferOwnership")}
+                  >
+                    Transfer Ownership
                   </button>
                 </div>
                 {/* Additional content based on active market tab */}
