@@ -1,3 +1,4 @@
+local json = require('json')
 local sqlite3 = require('lsqlite3')
 db = db or sqlite3.open_memory()
 dbAdmin = require('@rakis/DbAdmin').new(db)
@@ -22,40 +23,38 @@ InitDb()
 if not Profile then Profile = {} end
 if not Assets then Assets = {} end
 
-Handlers.add('Register-Profile', Handlers.utils.hasMatchingTag('Action', 'Register-Profile'),
+-- Register-Profile Handler
+Handlers.add("AssetX.Register",
   function(msg)
     return msg.Action == "Register"
   end,
   function(msg)
-    local query = string.format([[SELECT COUNT(*) as count FROM Users WHERE PID = "%s";]], msg.From)
-    local userCount = 0
-    for row in db:nrows(query) do
-      userCount = row.count
-    end
-
+    -- get user count
+    local userCount = #dbAdmin:exec(
+      string.format([[select * from Users where PID = "%s";]], msg.From)
+    )
     if userCount > 0 then
       Send({ Target = msg.From, Action = "Registered", Data = "Already Registered" })
       print("User already registered")
       return "Already Registered"
     end
-
-    local insert_query = string.format([[
-            INSERT INTO Users (PID, wallet_address, username, profile_img, bio) VALUES ("%s", "%s", "%s", "%s", "%s");
-        ]], msg.From, msg.wallet_address, msg.username or 'anon', msg.profile_img or '', msg.bio or '')
-    dbAdmin:exec(insert_query)
-
+    dbAdmin:exec(string.format([[
+      INSERT INTO Users (PID, wallet_address, username, profile_img, bio) VALUES ("%s", "%s", "%s", "%s", "%s");
+    ]], msg.From, msg.wallet_address, msg.username or 'anon', msg.profile_img or '', msg.bio or ''))
     Send({
       Target = msg.From,
-      Action = "Register-Profile",
+      Action = "AssetX.Registered",
       Data = "Successfully Registered."
     })
-    print("Registered " .. (msg.username or "anon"))
+    print("Registered " .. msg.username or "anon")
   end
 )
-
-Handlers.add('get-profile-by-wallet-address', Handlers.utils.hasMatchingTag('Action', 'get-profile-by-wallet-address'),
+-- get-profile-by-wallet-address Handler
+Handlers.add('AssetX.get-profile-by-wallet-address',
   function(msg)
-    -- Query to get the user profile by wallet_address
+    return msg.Action == "get-profile-by-wallet-address"
+  end,
+  function(msg)
     local query = string.format([[SELECT * FROM Users WHERE wallet_address = "%s";]], msg.wallet_address)
     local profile = nil
     for row in db:nrows(query) do
@@ -72,14 +71,14 @@ Handlers.add('get-profile-by-wallet-address', Handlers.utils.hasMatchingTag('Act
       local profile_json = json.encode(profile)
       Send({
         Target = msg.From,
-        Action = "get-profile-by-wallet-address",
+        Action = "AssetX.get-profile-by-wallet-address",
         Data = profile_json
       })
       print("Profile found for wallet_address: " .. profile_json)
     else
       Send({
         Target = msg.From,
-        Action = "get-profile-by-wallet-address",
+        Action = "AssetX.get-profile-by-wallet-address",
         Data = "Profile not found"
       })
       print("Profile not found for wallet_address: " .. msg.wallet_address)
@@ -87,16 +86,15 @@ Handlers.add('get-profile-by-wallet-address', Handlers.utils.hasMatchingTag('Act
   end
 )
 
-Handlers.add('update-profile', Handlers.utils.hasMatchingTag('Action', 'update-profile'),
+-- update-profile Handler
+Handlers.add('AssetX.update-profile',
+  function(msg)
+    return msg.Action == "update-profile"
+  end,
   function(msg)
     local updates = {}
-    Send({
-      Target = msg.From,
-      Action = "update-profile",
-      Data = "Profile update failed: "
-    })
-    print("Update Profile");
-    print(msg);
+    print("Update Profile")
+    print(json.encode(msg))
     if msg.username then
       table.insert(updates, string.format('username = "%s"', msg.username))
     end
@@ -108,30 +106,31 @@ Handlers.add('update-profile', Handlers.utils.hasMatchingTag('Action', 'update-p
     end
     if #updates > 0 then
       local update_query = string.format([[
-                UPDATE Users SET %s WHERE wallet_address = "%s";
-            ]], table.concat(updates, ', '), msg.wallet_address)
+        UPDATE Users SET %s WHERE wallet_address = "%s";
+      ]], table.concat(updates, ', '), msg.wallet_address)
 
       local result, err = dbAdmin:exec(update_query)
 
-      if result == sqlite3.OK then
+      if result then
         Send({
           Target = msg.From,
-          Action = "update-profile",
+          Action = "AssetX.update-profile",
           Data = "Profile updated successfully."
         })
         print("Profile updated for wallet_address: " .. msg.wallet_address)
       else
         Send({
           Target = msg.From,
-          Action = "update-profile",
-          Data = "Profile update failed: " .. err
+          Action = "AssetX.update-profile",
+          Data = "Profile update failed: " .. (err or "unknown error")
         })
-        print("Profile update failed for wallet_address: " .. msg.wallet_address .. " Error: " .. err)
+        print("Profile update failed for wallet_address: " ..
+          msg.wallet_address .. " Error: " .. (err or "unknown error"))
       end
     else
       Send({
         Target = msg.From,
-        Action = "update-profile",
+        Action = "AssetX.update-profile",
         Data = "No updates provided."
       })
       print("No updates provided for wallet_address: " .. msg.wallet_address)
@@ -139,12 +138,16 @@ Handlers.add('update-profile', Handlers.utils.hasMatchingTag('Action', 'update-p
   end
 )
 
+-- assetX.Users Handler
 Handlers.add("assetX.Users", function(msg)
     return msg.Action == "UserList"
   end,
   function(msg)
-    local authors = dbAdmin:exec([[SELECT PID FROM Users]])
+    local authors = {}
+    for row in db:nrows([[SELECT PID FROM Users]]) do
+      table.insert(authors, row.PID)
+    end
     print("Listing " .. #authors .. " authors")
-    Send({ Target = msg.From, Action = "assetx.Users", Data = require('json').encode(authors) })
+    Send({ Target = msg.From, Action = "assetX.Users", Data = json.encode(authors) })
   end
 )
