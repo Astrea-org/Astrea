@@ -1,3 +1,8 @@
+import { useFormContext } from "../FormContext";
+
 export default function Verification() {
-  return <></>;
+  const { formData } = useFormContext();
+  console.log(formData);
+
+  return <>verifi</>;
 }

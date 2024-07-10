@@ -1,4 +1,13 @@
+import { useFormContext } from "../FormContext";
+
 export default function Details() {
+  const { formMethods, formData, setFormData } = useFormContext();
+  const { register, handleSubmit } = formMethods;
+
+  const onSubmit = (data: any) => {
+    setFormData({ ...formData, details: data });
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center items-center font-poppinsRegular">
@@ -9,6 +18,7 @@ export default function Details() {
           <form
             action=""
             className="mt-4 flex flex-col items-start w-full px-5"
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col w-full">
               <label htmlFor="title" className="text-xl font-semibold">
@@ -17,7 +27,8 @@ export default function Details() {
               <input
                 id="title"
                 type="text"
-                value=""
+                {...register("name")}
+                defaultValue={formData.details.name}
                 required
                 className="w-full mt-1 rounded-md h-10 border border-gray-500"
               />
@@ -29,8 +40,8 @@ export default function Details() {
               <input
                 id="description"
                 type="text"
-                value=""
-                required
+                {...register("description")}
+                defaultValue={formData.details.description}
                 className="w-full mt-1 rounded-md h-32 border border-gray-500"
               />
             </div>
@@ -49,11 +60,14 @@ export default function Details() {
               <input
                 type="number"
                 className="mt-1 rounded-md border border-gray-300 p-1"
+                {...register("fractionalTokens")}
+                defaultValue={formData.details.fractionalTokens}
               />
             </div>
             <div className="mt-3">
               <p className="font-bold">These assets will be transferable ✅</p>
             </div>
+            <button type="submit">Save & Next</button>
           </form>
         </div>
       </div>

@@ -1,25 +1,58 @@
 import { IoMdInformationCircle } from "react-icons/io";
 import { liscData } from "../../../utils/data/liscData";
+import { useFormContext } from "../FormContext";
+import { useState } from "react";
 
 export default function License() {
+  const { formMethods, formData, setFormData } = useFormContext();
+  const { register, handleSubmit } = formMethods;
+  const [selectedLicense, setSelectedLicense] = useState(
+    formData.details.license || ""
+  );
+
+  const onSubmit = (data: any) => {
+    setFormData({
+      ...formData,
+      details: { ...formData.details, license: selectedLicense },
+    });
+    console.log("Selected License:", selectedLicense);
+  };
+
+  const handleSelection = (title: string) => {
+    setSelectedLicense(title);
+  };
+
   return (
     <div>
-      {" "}
       <div className="flex flex-col justify-center items-center font-poppinsRegular">
         <div className="bg-white shadow-2xl px-3 py-6 w-[700px] border border-gray-300 rounded-lg">
-          <form action="">
+          <form action="" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-between">
               <p className="text-lg font-bold">Universal Data License</p>
               <p className="text-lg">This asset will contain a license ✅</p>
             </div>
             <div>
               {liscData.map((item: any) => (
-                <>
-                  <div className="bg-gray-200 border border-gray-600 p-3 mt-6 rounded-lg hover:bg-[#454FA8]">
-                    <h1 className="font-bold">{item.title}</h1>
-                    <p className="mt-2">{item.desc}</p>
-                  </div>
-                </>
+                <div
+                  key={item.title}
+                  className={`bg-gray-200 border border-gray-600 p-3 mt-6 rounded-lg hover:bg-[#454FA8] ${
+                    selectedLicense === item.title
+                      ? "bg-[#454FA8] text-white"
+                      : ""
+                  }`}
+                  onClick={() => handleSelection(item.title)}
+                >
+                  <h1 className="font-bold">{item.title}</h1>
+                  <p className="mt-2">{item.desc}</p>
+                  <input
+                    type="radio"
+                    value={item.title}
+                    checked={selectedLicense === item.title}
+                    {...register("license")}
+                    onChange={() => handleSelection(item.title)}
+                    className="hidden"
+                  />
+                </div>
               ))}
             </div>
             <div>
@@ -31,6 +64,12 @@ export default function License() {
               </p>
               <input type="file" />
             </div>
+            <button
+              type="submit"
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Save & Next
+            </button>
           </form>
         </div>
       </div>

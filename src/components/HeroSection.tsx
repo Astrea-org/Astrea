@@ -20,8 +20,8 @@ export default function HeroSection() {
             <GlassButton content="Explore" />
           </a>
 
-          <a href="/" target="_blank" className="">
-            <GlassButton content="Dashboard" />
+          <a href="/add-asset" className="whitespace-nowrap">
+            <GlassButton content="Create Asset" />
           </a>
         </div>
       </div>
