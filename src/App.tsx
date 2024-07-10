@@ -5,6 +5,7 @@ import Form from "./pages/form/Form";
 import LandingPage from "./pages/nft/LandingPage";
 import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
 
 declare global {
   interface Window {
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
+        <Toaster />
       </div>
       <Footer />
     </>
