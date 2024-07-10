@@ -27,69 +27,47 @@ interface RegisterResult {
 function Profile() {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [isFetching, setIsFetching] = useState(false);
-  const [authorList, setAuthorList] = useState<Author[]>([]);
-  const processId = "FlBYYzcArvs_JnU1lEtiTKgnJOJ9k-3_e3GFjtzgsQI";
+  const processId = "iJ8bCUv-RGfWYF-fiGS_A_4d7fUtSwy9su9IcS48n2c";
 
   const handleCurrentWallet = async () => {
     const address = await window.arweaveWallet.getActiveAddress();
     setActiveAddress(address);
   };
 
-  const syncAllAuthors = async () => {
-    if (!activeAddress) {
-      return;
-    }
-
-    try {
-      const res: DryrunResult = await dryrun({
-        process: processId,
-        data: "",
-        tags: [{ name: "Action", value: "UserList" }],
-        anchor: "1234",
-      });
-      console.log("Dry run Author result", res);
-      const filteredResult: Author[] = res.Messages.map((message) => {
-        const parsedData = JSON.parse(message.Data);
-        return parsedData;
-      });
-      console.log("Filtered Author result", filteredResult);
-      console.log("ok");
-      setAuthorList(filteredResult);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const registerAuthor = async (name: string) => {
-    const toastId = toast.loading("Registering...");
+  const checkUserRegistered = async () => {
+    console.log("Active address:", activeAddress);
     try {
       const res = await message({
         process: processId,
-        tags: [{ name: "Action", value: "Register" }],
-        data: JSON.stringify({ name }),
+        tags: [
+          { name: "Target", value: "ao.id" },
+          { name: "Action", value: "get-profile-by-wallet-address" },
+        ],
+        data: JSON.stringify({ wallet_address: activeAddress }),
         signer: createDataItemSigner(window.arweaveWallet),
       });
 
-      console.log("Register Author result", res);
+      console.log("Response received:", res);
 
-      const registerResult: RegisterResult = await result({
-        process: processId,
-        message: res,
-      });
+      if (typeof res === "string") {
+        const parsedRes = JSON.parse(res);
 
-      console.log("Registered successfully", registerResult);
-
-      if (registerResult.Messages[0].Data === "Successfully Registered.") {
-        await syncAllAuthors();
-        toast.success("Successfully registered!");
+        if (parsedRes.Data) {
+          const profile = JSON.parse(parsedRes.Data);
+          if (profile.PID) {
+            console.log("Profile found:", profile);
+            // Optionally, you can set profile data in state or trigger further actions
+          } else {
+            console.log("Profile not found.");
+          }
+        } else {
+          console.log("No Data field in response:", parsedRes);
+        }
       } else {
-        toast.error("Registration failed.");
+        console.log("Unexpected response format:", res);
       }
-    } catch (error) {
-      toast.error("Registration failed.");
-      console.log(error);
-    } finally {
-      toast.dismiss(toastId);
+    } catch (err) {
+      console.error("Error occurred:", err);
     }
   };
 
@@ -98,20 +76,13 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    if (activeAddress) {
+    if (activeAddress != "") {
       setIsFetching(true);
-      syncAllAuthors().finally(() => setIsFetching(false));
-      console.log("This is active address", activeAddress);
-      console.log(
-        "Includes author",
-        authorList.some((author) => author.PID === activeAddress)
-      );
+      checkUserRegistered();
     }
   }, [activeAddress]);
 
   const kirtan = true;
-
-  console.log(authorList);
 
   return (
     <>
@@ -159,7 +130,7 @@ function Profile() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const name = (e.target as any).elements.name.value;
-                  registerAuthor(name);
+                  // registerAuthor(name);
                 }}
               >
                 <div className="flex flex-col mt-8">
