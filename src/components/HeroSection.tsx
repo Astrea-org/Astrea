@@ -16,7 +16,7 @@ export default function HeroSection() {
           hub.
         </div>
         <div className="z-30 flex lg:flex-row md:gap-10 gap-2 text-white">
-          <a href="/" target="_blank" className="">
+          <a href="/assets" className="">
             <GlassButton content="Explore" />
           </a>
 
