@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.2",
     "@material-tailwind/react": "^2.1.9",
+    "arweave": "^1.15.1",
     "framer-motion": "^11.2.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

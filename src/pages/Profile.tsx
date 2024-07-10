@@ -1,6 +1,16 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
 function Profile() {
+  const [activeAddress, setActiveAddress] = useState<string>("");
+
+  const handleCurrentWallet = async () => {
+    const address = await window.arweaveWallet.getActiveAddress();
+    setActiveAddress(address);
+  };
+
+  useEffect(() => {
+    handleCurrentWallet();
+  }, [activeAddress]);
   const kirtan = true;
   return (
     <>
