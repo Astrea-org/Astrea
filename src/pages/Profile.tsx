@@ -1,60 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { createDataItemSigner, message, result } from "@permaweb/aoconnect";
+import { useEffect, useState } from "react";
+import {
+  createDataItemSigner,
+  message,
+  result,
+  dryrun,
+} from "@permaweb/aoconnect";
 import toast from "react-hot-toast";
+import { fetchUserByAddress } from "../api/user";
+import { UserProfile } from "../types";
 import { AiOutlineAccountBook } from "react-icons/ai";
 
 function Profile() {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [isFetching, setIsFetching] = useState(false);
-  const [profile, setProfile] = useState<any>(null);
   const [username, setUsername] = useState("");
   const [profileImg, setProfileImg] = useState("");
   const [bio, setBio] = useState("");
-  const processId = "iJ8bCUv-RGfWYF-fiGS_A_4d7fUtSwy9su9IcS48n2c";
-
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const handleCurrentWallet = async () => {
     const address = await window.arweaveWallet.getActiveAddress();
     setActiveAddress(address);
   };
 
-  const checkUserRegistered = async () => {
-    console.log("Active address:", activeAddress);
-    try {
-      const mid = await message({
-        process: processId,
-        tags: [
-          { name: "Target", value: "ao.id" },
-          { name: "Action", value: "get-profile-by-wallet-address" },
-          { name: "wallet_address", value: activeAddress },
-        ],
-        signer: createDataItemSigner(window.arweaveWallet),
-      });
+  useEffect(() => {
+    handleCurrentWallet();
+  }, []);
 
-      const { Messages } = await result({
-        message: mid,
-        process: processId,
-      });
-
-      if (Messages.length > 0 && typeof Messages[0].Data === "string") {
-        const parsedRes = JSON.parse(Messages[0].Data);
-        console.log("Response received:", parsedRes);
-
-        if (parsedRes.Data) {
-          const profileData = JSON.parse(parsedRes.Data);
-          if (profileData.PID) {
-            console.log("Profile found:", profileData);
-            setProfile(profileData);
-          } else {
-            console.log("Profile not found.");
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Error occurred:", err);
-      toast.error("Error fetching profile data.");
-    } finally {
-      setIsFetching(false);
-    }
+  const fetchProfile = async () => {
+    const res = await fetchUserByAddress(activeAddress);
+    setProfile(res);
   };
 
   const registerProfile = async () => {
@@ -98,15 +72,10 @@ function Profile() {
     setIsFetching(true);
     await registerProfile();
   };
-
-  useEffect(() => {
-    handleCurrentWallet();
-  }, []);
-
   useEffect(() => {
     if (activeAddress) {
       setIsFetching(true);
-      checkUserRegistered();
+      fetchProfile();
     }
   }, [activeAddress]);
 
