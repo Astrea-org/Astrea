@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { CiMenuBurger } from "react-icons/ci";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa";
+import { FaStarOfDavid } from "react-icons/fa6";
+import udl from "../../assets/udl.png";
 
 function Asset() {
   const [activeTab, setActiveTab] = useState("market");
@@ -19,8 +24,84 @@ function Asset() {
           <img
             src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg"
             alt=""
-            className="w-72 rounded-lg"
+            className="w-80 rounded-lg"
           />
+          <div className="border border-gray-400 h-52 p-3 rounded-lg mt-6">
+            <div className="flex justify-between">
+              <p className="font-bold flex gap-1">
+                <CiMenuBurger className="mt-1" />
+                Overview
+              </p>
+              <span>
+                <MdKeyboardArrowDown className="mt-1" />
+              </span>
+            </div>
+            <hr className="h-px m-0 my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <div>
+              <p className="mt-2 font-bold">_marko_b_httpss.mj.runzJDC5hojE</p>
+              <p className="flex gap-1 mt-3">
+                Create by <FaRegUser className="mt-1" /> cat
+              </p>
+              <p className="underline text-gray-500 mt-3">Cat</p>
+              <p className="mt-3">An Atomic NFT secured on Arweave.</p>
+            </div>
+          </div>
+          <div className="border border-gray-400 h-52 p-3 rounded-lg mt-6">
+            <div className="flex justify-between">
+              <p className="font-bold flex gap-1">
+                <FaStarOfDavid className="mt-1" />
+                Asset Rights
+              </p>
+              <span>
+                <MdKeyboardArrowDown className="mt-1" />
+              </span>
+            </div>
+            <hr className="h-px m-0 my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <div className="flex justify-between">
+              <img src={udl} alt="" className="w-28" />
+              <p className="underline text-gray-500 mt-2">License Text</p>
+            </div>
+            <div className="mt-3">
+              <div className="flex justify-between">
+                <p>Commercial-Use</p>
+                <p>Allowed With Revenue Share</p>
+              </div>
+              <div className="flex justify-between mt-1">
+                <p>License</p>
+                <p>8se3e5tgf45efv</p>
+              </div>
+            </div>
+          </div>
+          <div className="border border-gray-400 h-52 p-3 rounded-lg mt-6">
+            <div className="flex justify-between">
+              <p className="font-bold flex gap-1">
+                <FaStarOfDavid className="mt-1" />
+                Provenance Details
+              </p>
+              <span>
+                <MdKeyboardArrowDown className="mt-1" />
+              </span>
+            </div>
+            <hr className="h-px m-0 my-2 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            <div className="flex justify-between">
+              <img src={udl} alt="" className="w-28" />
+              <p className="underline text-gray-500 mt-2">License Text</p>
+            </div>
+            <div className="mt-3">
+              <div className="flex justify-between">
+                <p>Transaction ID</p>
+                <p>9E7bFerf</p>
+              </div>
+              <div className="flex justify-between mt-1">
+                <p>Block Height</p>
+                <p>1,421,652</p>
+              </div>
+              <div className="flex justify-between mt-1">
+                <p>Date Created</p>
+                <p>July 10, 2024</p>
+              </div>
+            </div>
+          </div>
         </div>
         <div>
           <div className="border border-gray-400 h-52 p-5 rounded-lg">
