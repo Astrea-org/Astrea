@@ -18,6 +18,8 @@ function Explore() {
     handleCurrentWallet();
   };
 
+  console.log(activeAddress);
+
   return (
     <>
       <div className="bg-white pt-12">
@@ -66,7 +68,10 @@ function Explore() {
                   <br />
                   ipsum ex nulla ea adipisicing sit consequat
                 </p>
-                <button className="border border-gray-400 p-2 mt-4 flex gap-2">
+                <button
+                  onClick={handleConnectWallet}
+                  className="border border-gray-400 p-2 mt-4 flex gap-2"
+                >
                   Connect Wallet
                   <span>
                     <CiWallet className="mt-1" size={18} />
