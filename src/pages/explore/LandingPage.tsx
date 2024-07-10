@@ -10,8 +10,7 @@ function LandingPage() {
               Own your <br /> assets fr!
             </h1>
             <p className="max-w-[380px] mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
-              NFT marketplace UI created with Anima for Figma. Collect, buy and
-              sell art from more than 20k NFT artists.
+              Get secure data!
             </p>
             <a
               href="/add-asset"
