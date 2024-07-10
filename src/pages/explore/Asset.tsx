@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CiMenuBurger } from "react-icons/ci";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
@@ -13,6 +13,8 @@ function Asset() {
   const handleMarketTabClick = (tabName: any) => {
     setActiveMarketTab(tabName);
   };
+
+  console.log(setActiveTab);
 
   const sampleJson = {
     proof: {
