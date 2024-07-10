@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Form from "./pages/form/Form";
-import LandingPage from "./pages/nft/LandingPage";
+import LandingPage from "./pages/explore/LandingPage";
 import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
@@ -13,6 +13,7 @@ declare global {
       connect: (foo: string[]) => void;
       disconnect: () => void;
       getActiveAddress: () => string;
+      dispatch: (tx: any) => any;
     };
   }
 }
@@ -26,7 +27,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/add-asset" element={<Form />} />
-            <Route path="/nft" element={<LandingPage />} />
+            <Route path="/explore" element={<LandingPage />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
