@@ -121,33 +121,6 @@ function Asset() {
             </p>
           </div>
           <div className="mt-8">
-            <div className="flex gap-24">
-              <button
-                className={`border border-gray-400 px-6 py-2 rounded-lg ${
-                  activeTab === "market" ? "underline bg-gray-300" : ""
-                }`}
-                onClick={() => handleTabClick("market")}
-              >
-                Market
-              </button>
-              <button
-                className={`border border-gray-400 px-6 py-2 rounded-lg ${
-                  activeTab === "comments" ? "underline bg-gray-300" : ""
-                }`}
-                onClick={() => handleTabClick("comments")}
-              >
-                Comments
-              </button>
-              <button
-                className={`border border-gray-400 px-6 py-2 rounded-lg ${
-                  activeTab === "activity" ? "underline bg-gray-300" : ""
-                }`}
-                onClick={() => handleTabClick("activity")}
-              >
-                Activity
-              </button>
-            </div>
-            {/* Content based on active tab */}
             {activeTab === "market" && (
               <div className="border border-gray-400 h-52 p-5 rounded-lg mt-5">
                 <div className="flex gap-24">
