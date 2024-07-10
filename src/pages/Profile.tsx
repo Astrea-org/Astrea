@@ -68,8 +68,33 @@ function Profile() {
   return (
     <>
       {profile ? (
-        <div className="bg-white min-h-screen pt-52">
-          <h1 className="text-3xl text-white">kirtan</h1>
+        <div className="bg-white min-h-screen">
+          <div className="max-w-screen-xl px-4 py-8 mx-auto mt-24">
+            <div className="flex justify-between">
+              <div className="flex gap-4">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Cat_-1_%2826079853855%29.jpg/1200px-Cat_-1_%2826079853855%29.jpg"
+                  className="aspect-square w-28 object-cover rounded-full"
+                />
+                <div className="mt-6">
+                  <p className="text-lg font-bold">@{profile?.username}</p>
+                  <p>{profile?.wallet_address}</p>
+                </div>
+              </div>
+              <div>
+                <button className="mt-8 bg-gray-300 px-5 py-2 rounded-lg">
+                  Edit profile
+                </button>
+              </div>
+            </div>
+            <div className="mt-12">
+              <p className="text-lg font-bold">About</p>
+              <p className="mt-2">{profile?.bio}</p>
+            </div>
+            <div className="mt-12">
+              <p className="text-lg font-bold">My Assets</p>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="bg-white min-h-screen flex flex-col justify-center items-center mt-12 text-black">
