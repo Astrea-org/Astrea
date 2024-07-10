@@ -12,6 +12,7 @@ function Profile() {
   const [profileImg, setProfileImg] = useState("");
   const [bio, setBio] = useState("");
   const [profile, setProfile] = useState<UserProfile | null>(null);
+
   const handleCurrentWallet = async () => {
     const address = await window.arweaveWallet.getActiveAddress();
     setActiveAddress(address);
@@ -22,8 +23,14 @@ function Profile() {
   }, [activeAddress]);
 
   const fetchProfile = async () => {
-    const res = await fetchUserByAddress(activeAddress);
-    setProfile(res);
+    try {
+      const res = await fetchUserByAddress(activeAddress);
+      setProfile(res);
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   const registerProfile = async () => {
@@ -58,12 +65,17 @@ function Profile() {
       await registerProfile();
     }
   };
+
   useEffect(() => {
     if (activeAddress) {
       setIsFetching(true);
       fetchProfile();
     }
   }, [activeAddress]);
+
+  if (isFetching) {
+    return <div className="bg-white min-h-screen mt-52">Loading...</div>;
+  }
 
   return (
     <>
