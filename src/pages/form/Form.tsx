@@ -4,6 +4,8 @@ import Details from "./steps/Details";
 import Verification from "./steps/Verification";
 import License from "./steps/License";
 import { FormProvider } from "./FormContext";
+import { useForm } from "react-hook-form";
+import { AssetItem } from "../../types";
 
 type FormProps = {};
 
@@ -11,6 +13,21 @@ const Form: React.FC<FormProps> = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [isLastStep, setIsLastStep] = useState(false);
   const [isFirstStep, setIsFirstStep] = useState(false);
+
+  const methods = useForm<AssetItem>({
+    defaultValues: {
+      title: "",
+      description: "",
+      tags: [],
+      content_type: "",
+      content: "",
+      license: "",
+      owner: "",
+      file: undefined,
+      banner: undefined,
+      thumbnail: undefined,
+    },
+  });
 
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
@@ -31,20 +48,25 @@ const Form: React.FC<FormProps> = () => {
   useEffect(() => {
     console.log("activeStep:", activeStep);
   }, [activeStep]);
+
   return (
     <>
-      <FormProvider>
+      <FormProvider {...methods}>
         <div className="w-full px-8 pt-28 bg-white flex flex-col min-h-screen">
           <div className="flex justify-end gap-10 h-10">
             <button
-              className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+              className={`px-4 py-2 bg-gray-300 rounded disabled:opacity-50  ${
+                isLastStep ? "hidden" : ""
+              }`}
               onClick={handlePrev}
               disabled={isFirstStep}
             >
               Prev
             </button>
             <button
-              className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+              className={`px-4 py-2 bg-black text-white rounded disabled:opacity-50 ${
+                isLastStep ? "hidden" : ""
+              }`}
               onClick={handleNext}
               disabled={isLastStep}
             >

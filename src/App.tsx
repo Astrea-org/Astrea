@@ -10,12 +10,7 @@ import Asset from "./pages/explore/Asset";
 
 declare global {
   interface Window {
-    arweaveWallet: {
-      connect: (foo: string[]) => void;
-      disconnect: () => void;
-      getActiveAddress: () => string;
-      dispatch: (tx: any) => any;
-    };
+    arweaveWallet: any;
   }
 }
 

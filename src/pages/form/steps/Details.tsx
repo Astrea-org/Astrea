@@ -45,14 +45,14 @@ export default function Details() {
                 className="w-full mt-1 rounded-md h-32 border border-gray-500"
               />
             </div>
-            <div className="w-full mt-3">
+            {/* <div className="w-full mt-3">
               <p>
                 Note: Details entered below will only apply to newly created{" "}
                 <br />
                 assets, existing assets will not be modified.
               </p>
-            </div>
-            <div className="bg-gray-300 p-5 mt-3 w-full border-black border rounded-lg">
+            </div> */}
+            {/* <div className="bg-gray-300 p-5 mt-3 w-full border-black border rounded-lg">
               <p className="font-bold">
                 These assets will use fractionalized tokens
               </p>
@@ -63,11 +63,22 @@ export default function Details() {
                 {...register("fractionalTokens")}
                 defaultValue={formData.details.fractionalTokens}
               />
-            </div>
+            </div> */}
+
+            <input
+              type="file"
+              {...register("file")}
+              defaultValue={formData.details.file}
+            />
             <div className="mt-3">
-              <p className="font-bold">These assets will be transferable ✅</p>
+              <p className="font-bold inline-flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="border border-black w-5 h-5"
+                />
+                These assets will be transferable
+              </p>
             </div>
-            <button type="submit">Save & Next</button>
           </form>
         </div>
       </div>

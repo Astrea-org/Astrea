@@ -20,3 +20,16 @@ export const CONTENT_TYPES = {
   mp4: "video/mp4",
   textPlain: "text/plain",
 };
+
+export interface AssetItem {
+  title: string;
+  description: string;
+  tags: TagType[];
+  content_type: string;
+  content: string;
+  license: string;
+  owner: string;
+  file?: File;
+  banner?: File;
+  thumbnail?: File;
+}

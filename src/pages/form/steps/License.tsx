@@ -9,6 +9,7 @@ export default function License() {
   const [selectedLicense, setSelectedLicense] = useState(
     formData.details.license || ""
   );
+  console.log(formData);
 
   const onSubmit = () => {
     setFormData({
@@ -29,13 +30,13 @@ export default function License() {
           <form action="" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-between">
               <p className="text-lg font-bold">Universal Data License</p>
-              <p className="text-lg">This asset will contain a license ✅</p>
+              {/* <p className="text-lg">Lice</p> */}
             </div>
             <div>
               {liscData.map((item: any) => (
                 <div
                   key={item.title}
-                  className={`bg-gray-200 border border-gray-600 p-3 mt-6 rounded-lg hover:bg-[#454FA8] ${
+                  className={`border border-gray-600 p-3 mt-6 rounded-lg hov ${
                     selectedLicense === item.title
                       ? "bg-[#454FA8] text-white"
                       : ""
@@ -64,12 +65,6 @@ export default function License() {
               </p>
               <input type="file" />
             </div>
-            <button
-              type="submit"
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-            >
-              Save & Next
-            </button>
           </form>
         </div>
       </div>

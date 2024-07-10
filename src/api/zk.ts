@@ -18,12 +18,14 @@ interface VerifyProofResponse {
   result: string;
 }
 
-// Function to generate proof
 export const generateProof = async (
   reqData: ProofGenRequest
 ): Promise<ProofGenResponse> => {
   try {
-    const response = await axios.post<ProofGenResponse>("/proof-gen", reqData);
+    const response = await axios.post<ProofGenResponse>(
+      "https://localhost:3000/proof-gen",
+      reqData
+    );
     return response.data;
   } catch (error) {
     console.error("Error generating proof:", error);
@@ -31,12 +33,14 @@ export const generateProof = async (
   }
 };
 
-// Function to verify proof
 export const verifyProof = async (
   reqData: VerifyProofRequest
 ): Promise<VerifyProofResponse> => {
   try {
-    const response = await axios.post<VerifyProofResponse>("/verify", reqData);
+    const response = await axios.post<VerifyProofResponse>(
+      "https://localhost:3000/verify",
+      reqData
+    );
     return response.data;
   } catch (error) {
     console.error("Error verifying proof:", error);
