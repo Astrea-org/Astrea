@@ -1,51 +1,14 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "../FormContext";
-
-interface ProofData {
-  scheme: string;
-  curve: string;
-  proof: {
-    a: string[];
-    b: [string[], string[]];
-    c: string[];
-  };
-  inputs: string[];
-}
-
-// Empty proof data object
-const emptyProofData: ProofData = {
-  scheme: "g16",
-  curve: "bn128",
-  proof: {
-    a: [
-      "0x23b2a19ec32e4184f3995a328789726b14c8c08bef1e92d8bb3e2f74d324f16f",
-      "0x2c4d692f6b441ab1ec7aec80485620194181a3abc5deac1d588b20ccf4213ae5",
-    ],
-    b: [
-      [
-        "0x2d33be0cf25f7680adc7d593170c8648b2c4dcef59ae7df89890316252d9cc45",
-        "0x06e68f76220c9ff990d73fffdca97bd482f43c9337c4cf146c2f73172d63c18f",
-      ],
-      [
-        "0x239eda10b3c839f10748a932f4fa9dc4d5ffae07fdf3ba885783cbe764d2901f",
-        "0x0b86a3d8df3a322638204aef842c48954812fcc129de522358ad4521a2730edd",
-      ],
-    ],
-    c: [
-      "0x18ed7567dfa7193c9be68fb2a8d61b13782bc173c0a2de79caa6065b32ea19a8",
-      "0x03b87587fcf2aae2504cdd0a0d8c629f928e31abf1296df5c6667f86de5c3670",
-    ],
-  },
-  inputs: [
-    "0x0000000000000000000000000000000000000338beba6414a3179f2b20d9fd0e",
-    "0x0000000000000000000000000000000000000198a544ad1040ee842bb1da9684",
-    "0x000000000000000000000000000000002db1bf988311e4ce2e28b8fae9aac352",
-    "0x00000000000000000000000000000000109ab7a7be3b4945ee2f979101393733",
-  ],
-};
+import { generateProof } from "../../../api/zk";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Verification() {
   const [activeAddress, setActiveAddress] = useState<string>("");
+  const [loadingProof, setLoadingProof] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(true);
+
   const { formData } = useFormContext();
 
   console.log(formData);
@@ -75,10 +38,17 @@ export default function Verification() {
   };
 
   const handleProofGen = async () => {
-    // const res = await generateProof({ owner, title, data });
-    // console.log(res);
-    setJsonObject(JSON.stringify(emptyProofData, null, 2));
+    setLoadingProof(true);
+    const res = await generateProof({ owner, title, data });
+    console.log(res);
+    setJsonObject(JSON.stringify(res, null, 2));
+    setLoadingProof(false);
   };
+
+  function close() {
+    setIsOpen(false);
+  }
+
   return (
     <div className="flex flex-col p-6 w-[40vw] mx-auto">
       <div className="flex-1 mr-4">
@@ -88,22 +58,30 @@ export default function Verification() {
             <button
               onClick={handleProofGen}
               className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+              disabled={loadingProof}
             >
               Generate Proof
             </button>
             <button
               onClick={handleTranscation}
               className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
+              disabled={loadingProof}
             >
               Submit
             </button>
           </div>
         </div>
-        <textarea
-          value={jsonObject}
-          readOnly
-          className="w-full h-64 p-2 border border-gray-300 rounded resize-none bg-gray-100"
-        />
+        {loadingProof ? (
+          <div>
+            <Skeleton height={"16rem"} />
+          </div>
+        ) : (
+          <textarea
+            value={jsonObject}
+            readOnly
+            className="w-full h-64 p-2 border border-gray-300 rounded resize-none bg-gray-100"
+          />
+        )}
       </div>
       <div className="flex-1">
         <h2 className="text-lg font-bold mb-2">Details</h2>

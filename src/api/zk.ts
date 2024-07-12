@@ -18,12 +18,14 @@ interface VerifyProofResponse {
   result: string;
 }
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 export const generateProof = async (
   reqData: ProofGenRequest
 ): Promise<ProofGenResponse> => {
   try {
     const response = await axios.post<ProofGenResponse>(
-      "https://localhost:3000/proof-gen",
+      `${BASE_URL}/proof-gen`,
       reqData
     );
     return response.data;
@@ -38,7 +40,7 @@ export const verifyProof = async (
 ): Promise<VerifyProofResponse> => {
   try {
     const response = await axios.post<VerifyProofResponse>(
-      "https://localhost:3000/verify",
+      `${BASE_URL}/verify`,
       reqData
     );
     return response.data;
