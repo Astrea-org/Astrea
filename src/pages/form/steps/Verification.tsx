@@ -7,7 +7,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 export default function Verification() {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [loadingProof, setLoadingProof] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState(true);
 
   const { formData } = useFormContext();
 
@@ -44,10 +43,6 @@ export default function Verification() {
     setJsonObject(JSON.stringify(res, null, 2));
     setLoadingProof(false);
   };
-
-  function close() {
-    setIsOpen(false);
-  }
 
   return (
     <div className="flex flex-col p-6 w-[40vw] mx-auto">
