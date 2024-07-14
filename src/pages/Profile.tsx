@@ -4,25 +4,20 @@ import toast from "react-hot-toast";
 import { fetchUserByAddress } from "../api/user";
 import { UserProfile } from "../types";
 import { PROCCESSID } from "../types";
+import { useWallet } from "../context/WalletContext";
 
 function Profile() {
-  const [activeAddress, setActiveAddress] = useState<string>("");
+  const { activeAddress } = useWallet();
   const [isFetching, setIsFetching] = useState(false);
   const [username, setUsername] = useState("");
   const [profileImg, setProfileImg] = useState("");
   const [bio, setBio] = useState("");
   const [profile, setProfile] = useState<UserProfile | null>(null);
 
-  const handleCurrentWallet = async () => {
-    const address = await window.arweaveWallet.getActiveAddress();
-    setActiveAddress(address);
-  };
-
-  useEffect(() => {
-    handleCurrentWallet();
-  }, [activeAddress]);
-
   const fetchProfile = async () => {
+    if (!activeAddress) return;
+
+    setIsFetching(true);
     try {
       const res = await fetchUserByAddress(activeAddress);
       setProfile(res);
@@ -34,6 +29,8 @@ function Profile() {
   };
 
   const registerProfile = async () => {
+    if (!activeAddress) return;
+
     try {
       const mid = await message({
         process: PROCCESSID.profile,
@@ -50,11 +47,10 @@ function Profile() {
 
       console.log("Registration message ID:", mid);
       toast.success("Profile registered successfully!");
+      fetchProfile(); // Refresh profile after registration
     } catch (err) {
       console.error("Error occurred during registration:", err);
       toast.error("Failed to register profile.");
-    } finally {
-      setIsFetching(false);
     }
   };
 
@@ -63,12 +59,12 @@ function Profile() {
     if (activeAddress) {
       setIsFetching(true);
       await registerProfile();
+      setIsFetching(false);
     }
   };
 
   useEffect(() => {
     if (activeAddress) {
-      setIsFetching(true);
       fetchProfile();
     }
   }, [activeAddress]);
@@ -85,12 +81,13 @@ function Profile() {
             <div className="flex justify-between">
               <div className="flex gap-4">
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Cat_-1_%2826079853855%29.jpg/1200px-Cat_-1_%2826079853855%29.jpg"
+                  src="https://t4.ftcdn.net/jpg/05/62/99/31/360_F_562993122_e7pGkeY8yMfXJcRmclsoIjtOoVDDgIlh.jpg"
+                  alt="Profile"
                   className="aspect-square w-28 object-cover rounded-full"
                 />
                 <div className="mt-6">
-                  <p className="text-lg font-bold">@{profile?.username}</p>
-                  <p>{profile?.wallet_address}</p>
+                  <p className="text-lg font-bold">@{profile.username}</p>
+                  <p>{profile.wallet_address}</p>
                 </div>
               </div>
               <div>
@@ -101,7 +98,7 @@ function Profile() {
             </div>
             <div className="mt-12">
               <p className="text-lg font-bold">About</p>
-              <p className="mt-2">{profile?.bio}</p>
+              <p className="mt-2">{profile.bio}</p>
             </div>
             <div className="mt-12">
               <p className="text-lg font-bold">My Assets</p>

@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { CgProfile } from "react-icons/cg";
+import { useWallet } from "../context/WalletContext";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [scroll, setScroll] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeAddress, setActiveAddress] = useState<string | null>(null);
+  const { activeAddress, connectWallet, disconnectWallet } = useWallet();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,29 +30,6 @@ export default function Navbar() {
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
   };
-
-  const handleCurrentWallet = async () => {
-    const address = await window.arweaveWallet.getActiveAddress();
-    setActiveAddress(address);
-  };
-
-  const handleConnectWallet = async () => {
-    await window.arweaveWallet.connect(["ACCESS_ADDRESS", "SIGN_TRANSACTION"]);
-    handleCurrentWallet();
-  };
-
-  const handleDisconnectWallet = async () => {
-    setActiveAddress(null);
-    await window.arweaveWallet.disconnect();
-  };
-
-  useEffect(() => {
-    handleCurrentWallet();
-  }, []);
-
-  useEffect(() => {
-    console.log(window.location.pathname === "/" && scroll);
-  });
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
@@ -89,12 +69,12 @@ export default function Navbar() {
           <a href="/">Whitepaper</a>
         </div>
         <div className="hidden lg:block">
-          {activeAddress === null ? (
+          {!activeAddress ? (
             <button
-              onClick={handleConnectWallet}
+              onClick={connectWallet}
               className={`w-[15rem] items-center gap-2 rounded-md py-2 px-3 text-sm/6 font-semibold border-[1.5px] shadow-inner  focus:outline-none 
               ${
-                window.location.pathname === "/"
+                location.pathname === "/"
                   ? scroll
                     ? "bg-[#0000004D] text-black border-black shadow-black/10 hover:bg-[#00000026]"
                     : "bg-[#FFFFFF4D] text-white border-white shadow-white/10 hover:bg-[#FFFFFF26]"
@@ -108,7 +88,7 @@ export default function Navbar() {
               <Menu>
                 <MenuButton
                   className={` truncate w-[15rem] items-center gap-2 rounded-md py-2 px-3 text-sm/6 font-semibold  border-[1px] shadow-inner focus:outline-none ${
-                    window.location.pathname === "/"
+                    location.pathname === "/"
                       ? scroll
                         ? "bg-[#00000026] text-black border-black shadow-black/10 hover:bg-[#00000026]"
                         : "bg-[#FFFFFF4D] text-white border-white shadow-white/10 hover:bg-[#FFFFFF26]"
@@ -132,17 +112,14 @@ export default function Navbar() {
                 >
                   <MenuItem>
                     <a href="/profile">
-                      <button
-                        onClick={handleDisconnectWallet}
-                        className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3"
-                      >
+                      <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3">
                         Profile
                       </button>
                     </a>
                   </MenuItem>
                   <MenuItem>
                     <button
-                      onClick={handleDisconnectWallet}
+                      onClick={disconnectWallet}
                       className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3"
                     >
                       Disconnect Wallet
