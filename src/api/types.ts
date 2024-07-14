@@ -8,3 +8,9 @@ export interface ProofData {
   };
   inputs: string[];
 }
+
+export interface callProofGenProps {
+  owner: string;
+  title: string;
+  data: string;
+}

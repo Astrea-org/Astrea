@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { generateProof } from "../../../api/zk";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useFormContext } from "react-hook-form";
 import "../../../components/LoadingAnimation.css";
+import { callProofGen } from "../../../api/aws-lambda-zk";
 export default function Verification() {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [loadingProof, setLoadingProof] = useState<boolean>(false);
@@ -35,7 +35,7 @@ export default function Verification() {
 
   const handleProofGen = async () => {
     setLoadingProof(true);
-    const res = await generateProof({
+    const res = await callProofGen({
       owner,
       title: asset.title,
       data: asset.file[0].name,
@@ -73,7 +73,7 @@ export default function Verification() {
           <div className="w-full h-64 bg-gray-100 flex flex-col gap-10 justify-center items-center">
             <div className="loader "></div>
             <span className=" font-poppinsSemiBold">
-              Please wait this might take a few seconds...
+              Please wait this might take a minute...
             </span>
           </div>
         ) : (
