@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import Asset from "./pages/explore/Asset";
+import { WalletProvider } from "./context/WalletContext";
 
 declare global {
   interface Window {
@@ -16,10 +17,10 @@ declare global {
 
 export default function App() {
   return (
-    <>
-      <div className="min-h-screen bg-black overflow-x-clip">
-        <Navbar />
-        <BrowserRouter>
+    <BrowserRouter>
+      <WalletProvider>
+        <div className="min-h-screen bg-black overflow-x-clip">
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/add-asset" element={<Form />} />
@@ -28,10 +29,10 @@ export default function App() {
             <Route path="/explore" element={<LandingPage />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
-        </BrowserRouter>
-        <Toaster />
-      </div>
-      <Footer />
-    </>
+          <Toaster />
+        </div>
+        <Footer />
+      </WalletProvider>
+    </BrowserRouter>
   );
 }
