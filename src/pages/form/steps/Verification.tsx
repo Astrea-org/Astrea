@@ -104,15 +104,17 @@ export default function Verification() {
             className="w-full p-2 border border-gray-300 rounded bg-gray-100"
           />
         </div>
-        <div>
-          <label className="block text-gray-700 mb-1">Data</label>
-          <input
-            type="text"
-            value={asset.file[0].name}
-            readOnly
-            className="w-full p-2 border border-gray-300 rounded bg-gray-100"
-          />
-        </div>
+        {asset.file && asset.file.length > 0 && (
+          <div>
+            <label className="block text-gray-700 mb-1">Data</label>
+            <input
+              type="text"
+              value={asset.file[0].name}
+              readOnly
+              className="w-full p-2 border border-gray-300 rounded bg-gray-100"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
