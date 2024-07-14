@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useFormContext } from "../FormContext";
 import { generateProof } from "../../../api/zk";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
+import { useFormContext } from "react-hook-form";
+import "../../../components/LoadingAnimation.css";
 export default function Verification() {
   const [activeAddress, setActiveAddress] = useState<string>("");
   const [loadingProof, setLoadingProof] = useState<boolean>(false);
+  const [owner, setOwner] = useState<string>("");
 
-  const { formData } = useFormContext();
+  const { watch, setValue } = useFormContext();
+  const asset = watch();
 
-  console.log(formData);
   useEffect(() => {
     handleCurrentWallet();
     setOwner(activeAddress);
@@ -20,16 +20,13 @@ export default function Verification() {
     JSON.stringify("", null, 2)
   );
 
-  const [owner, setOwner] = useState<string>("");
-  const handleTranscation = async () => {
-    const transaction = await window.arweaveWallet.createTransaction({
-      data: '<html><head><meta charset="UTF-8"><title>Hello permanent world! This was signed via ArConnect!!!</title></head><body></body></html>',
-    });
+  // const handleTranscation = async () => {
+  //   const transaction = await window.arweaveWallet.createTransaction({
+  //     data: '<html><head><meta charset="UTF-8"><title>Hello permanent world! This was signed via ArConnect!!!</title></head><body></body></html>',
+  //   });
 
-    await window.arweaveWallet.transactions.sign(transaction);
-  };
-  const title = "Test Test";
-  const data = "test.csv";
+  //   await window.arweaveWallet.transactions.sign(transaction);
+  // };
 
   const handleCurrentWallet = async () => {
     const address = await window.arweaveWallet.getActiveAddress();
@@ -38,9 +35,14 @@ export default function Verification() {
 
   const handleProofGen = async () => {
     setLoadingProof(true);
-    const res = await generateProof({ owner, title, data });
-    console.log(res);
-    setJsonObject(JSON.stringify(res, null, 2));
+    const res = await generateProof({
+      owner,
+      title: asset.title,
+      data: asset.file[0].name,
+    });
+    const proof = JSON.stringify(res, null, 2);
+    setJsonObject(proof);
+    setValue("proof", proof);
     setLoadingProof(false);
   };
 
@@ -57,8 +59,9 @@ export default function Verification() {
             >
               Generate Proof
             </button>
+
             <button
-              onClick={handleTranscation}
+              // onClick={handleTranscation}
               className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
               disabled={loadingProof}
             >
@@ -67,8 +70,11 @@ export default function Verification() {
           </div>
         </div>
         {loadingProof ? (
-          <div>
-            <Skeleton height={"16rem"} />
+          <div className="w-full h-64 bg-gray-100 flex flex-col gap-10 justify-center items-center">
+            <div className="loader "></div>
+            <span className=" font-poppinsSemiBold">
+              Please wait this might take a few seconds...
+            </span>
           </div>
         ) : (
           <textarea
@@ -93,7 +99,7 @@ export default function Verification() {
           <label className="block text-gray-700 mb-1">Title</label>
           <input
             type="text"
-            value={title}
+            value={asset.title}
             readOnly
             className="w-full p-2 border border-gray-300 rounded bg-gray-100"
           />
@@ -102,7 +108,7 @@ export default function Verification() {
           <label className="block text-gray-700 mb-1">Data</label>
           <input
             type="text"
-            value={data}
+            value={asset.file[0].name}
             readOnly
             className="w-full p-2 border border-gray-300 rounded bg-gray-100"
           />

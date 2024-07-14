@@ -29,7 +29,8 @@ export interface AssetItem {
   content: string;
   license: string;
   owner: string;
-  file?: File;
+  file: FileList;
+  proof: string;
   banner?: File;
   thumbnail?: File;
 }
