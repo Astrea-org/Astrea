@@ -1,32 +1,53 @@
-import Arweave from "arweave";
-import { CONTENT_TYPES, TagType } from "../types";
-// import { dryrun } from "@permaweb/aoconnect";
+import { GraphQLClient, gql } from "graphql-request";
 
-const arweave = Arweave.init({});
+export const fetchProcesses = async (address: string) => {
+  if (!window.arweaveWallet) return;
+  const client = new GraphQLClient("https://arweave.net/graphql");
 
-export async function createTransaction(args: {
-  content: any;
-  contentType: string;
-  tags: TagType[];
-}) {
-  let finalContent: any;
-  switch (args.contentType) {
-    case CONTENT_TYPES.json as any:
-      finalContent = JSON.stringify(args.content);
-      break;
-    default:
-      finalContent = args.content;
-      break;
+  const query = gql`
+  query {
+    transactions(owners: "${address}",
+    tags: [{ name: "Data-Protocol", values: ["ao"] }, { name: "Type", values: ["Process"] }],
+    first: 999
+  ) {
+      edges {
+        node {
+          id
+          tags {
+            name
+            value
+          }
+        }
+      }
+    }
   }
-  try {
-    const txRes = await arweave.createTransaction(
-      { data: finalContent },
-      "use_wallet"
-    );
-    args.tags.forEach((tag: TagType) => txRes.addTag(tag.name, tag.value));
-    const response = await window.arweaveWallet.dispatch(txRes);
-    return response.id;
-  } catch (e: any) {
-    throw new Error(`Error creating transaction ...\n ${e}`);
-  }
-}
+`;
+
+  const res: any = await client.request(query);
+
+  console.log(res);
+  const transactionsWithLicense = res.transactions.edges.filter(
+    (transaction: any) =>
+      transaction.node.tags.some((tag: any) => tag.name === "License")
+  );
+
+  const data = transactionsWithLicense.map((transaction: any) => {
+    return {
+      id: transaction.node.id,
+      title: transaction.node.tags.find((tag: any) => tag.name === "Title")
+        .value,
+      content_type: transaction.node.tags.find(
+        (tag: any) => tag.name === "Content-Type"
+      ).value,
+    };
+  });
+
+  console.log(data);
+  return data;
+};
+
+export const fetchDataArweave = async (txId: string) => {
+  const data = await fetch(`https://arweave.net/${txId}`);
+
+  return data;
+};

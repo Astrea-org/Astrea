@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Form from "./pages/form/Form";
 import LandingPage from "./pages/explore/LandingPage";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
 import Asset from "./pages/explore/Asset";

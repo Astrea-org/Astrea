@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { createDataItemSigner, message } from "@permaweb/aoconnect";
 import toast from "react-hot-toast";
-import { fetchUserByAddress } from "../api/user";
-import { UserProfile } from "../types";
-import { PROCCESSID } from "../types";
-import { useWallet } from "../context/WalletContext";
+import { fetchUserByAddress } from "../../api/user";
+import { PROCCESSID } from "../../types";
+import { useWallet } from "../../context/WalletContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { fetchProcesses } from "../../api/apis";
+import { Loading } from "./Loading";
+import { ProccessItem, UserProfile } from "./types";
 
 export default function Profile() {
   const { activeAddress } = useWallet();
@@ -15,18 +17,21 @@ export default function Profile() {
   const [profileImg, setProfileImg] = useState("");
   const [bio, setBio] = useState("");
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [processes, setProcesses] = useState<ProccessItem[]>([]);
 
   const fetchProfile = async () => {
-    if (!activeAddress) return;
-
-    setIsFetching(true);
-    try {
-      const res = await fetchUserByAddress(activeAddress);
-      setProfile(res);
-    } catch (error) {
-      console.error("Error fetching profile:", error);
-    } finally {
-      setIsFetching(false);
+    if (activeAddress) {
+      setIsFetching(true);
+      try {
+        const res = await fetchUserByAddress(activeAddress);
+        const assets = await fetchProcesses(activeAddress);
+        setProcesses(assets);
+        setProfile(res);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      } finally {
+        setIsFetching(false);
+      }
     }
   };
 
@@ -71,61 +76,17 @@ export default function Profile() {
     }
   }, [activeAddress]);
 
-  if (isFetching) {
-    return (
-      <div className="bg-white min-h-screen mt-52">
-        <div className="max-w-screen-xl px-4 py-8 mx-auto mt-24">
-          <div className="flex justify-between">
-            <div className="flex gap-4">
-              <Skeleton
-                circle={true}
-                height={112}
-                width={112}
-                baseColor="#d1d5db"
-              />
-              <div className="mt-6">
-                <p className="text-lg font-bold">
-                  <Skeleton width={100} baseColor="#d1d5db" />
-                </p>
-                <p>
-                  <Skeleton width={200} baseColor="#d1d5db" />
-                </p>
-              </div>
-            </div>
-            <div>
-              <Skeleton width={120} height={40} baseColor="#d1d5db" />
-            </div>
-          </div>
-          <div className="mt-12">
-            <p className="text-lg font-bold">
-              <Skeleton width={80} baseColor="#d1d5db" />
-            </p>
-            <p className="mt-2">
-              <Skeleton count={3} baseColor="#d1d5db" />
-            </p>
-          </div>
-          <div className="mt-12">
-            <p className="text-lg font-bold">
-              <Skeleton width={100} baseColor="#d1d5db" />
-            </p>
-            <p className="mt-2">
-              <Skeleton count={2} baseColor="#d1d5db" />
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <>
-      {profile ? (
+    <div className="bg-white">
+      {isFetching ? (
+        <Loading />
+      ) : profile ? (
         <div className="bg-white min-h-screen">
-          <div className="max-w-screen-xl px-4 py-8 mx-auto mt-24">
+          <div className="max-w-screen-xl px-4 py-8 mx-auto mt-24 flex flex-col gap-10">
             <div className="flex justify-between">
               <div className="flex gap-4">
                 <img
-                  src="https://t4.ftcdn.net/jpg/05/62/99/31/360_F_562993122_e7pGkeY8yMfXJcRmclsoIjtOoVDDgIlh.jpg"
+                  src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
                   alt="Profile"
                   className="aspect-square w-28 object-cover rounded-full"
                 />
@@ -140,12 +101,40 @@ export default function Profile() {
                 </button>
               </div>
             </div>
-            <div className="mt-12">
+            <div className="">
               <p className="text-lg font-bold">About</p>
-              <p className="mt-2">{profile.bio}</p>
+              <p className="">{profile.bio}</p>
             </div>
-            <div className="mt-12">
+            <div className="flex flex-col gap-5">
               <p className="text-lg font-bold">My Assets</p>
+              <div className="flex flex-wrap gap-10">
+                {processes.length > 0 &&
+                  processes.map((process) => (
+                    <div className="relative flex flex-col shadow bg-white p-5 gap-5">
+                      {process.content_type === "image/png" ? (
+                        <img
+                          src={`https://arweave.net/${process.id}`}
+                          alt="Asset"
+                          className="w-[18vw] h-[18vw] object-contain"
+                        />
+                      ) : (
+                        <div className="w-[18vw] h-[18vw] flex flex-col bg-gray-100 p-5">
+                          <img
+                            src="public/images/empty.png"
+                            alt="empty"
+                            className="w-[10vw] h-[10vw] mx-auto"
+                          />
+                          <span className="text-[#495057] font-poppinsSemiBold text-xl my-auto text-center">
+                            Please purchase to view this content!
+                          </span>
+                        </div>
+                      )}
+                      <span className="truncate w-[10vw] text-xl font-semibold text-[#495057] font-poppinsSemiBold">
+                        {process.title}
+                      </span>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
@@ -198,6 +187,6 @@ export default function Profile() {
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 }
