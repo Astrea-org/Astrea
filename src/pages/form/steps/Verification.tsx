@@ -20,14 +20,6 @@ export default function Verification() {
     JSON.stringify("", null, 2)
   );
 
-  // const handleTranscation = async () => {
-  //   const transaction = await window.arweaveWallet.createTransaction({
-  //     data: '<html><head><meta charset="UTF-8"><title>Hello permanent world! This was signed via ArConnect!!!</title></head><body></body></html>',
-  //   });
-
-  //   await window.arweaveWallet.transactions.sign(transaction);
-  // };
-
   const handleCurrentWallet = async () => {
     const address = await window.arweaveWallet.getActiveAddress();
     setActiveAddress(address);
@@ -47,7 +39,7 @@ export default function Verification() {
   };
 
   return (
-    <div className="flex flex-col p-6 w-[40vw] mx-auto">
+    <div className="flex flex-col p-6 w-[40vw] mx-auto shadow-lg">
       <div className="flex-1 mr-4">
         <div className="flex flex-row justify-between my-2">
           <h2 className="text-lg font-bold mb-2">JSON Object</h2>
@@ -58,14 +50,6 @@ export default function Verification() {
               disabled={loadingProof}
             >
               Generate Proof
-            </button>
-
-            <button
-              // onClick={handleTranscation}
-              className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
-              disabled={loadingProof}
-            >
-              Submit
             </button>
           </div>
         </div>

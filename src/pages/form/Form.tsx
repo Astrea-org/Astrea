@@ -3,8 +3,13 @@ import { Stepper, Step } from "@material-tailwind/react";
 import Details from "./steps/Details";
 import Verification from "./steps/Verification";
 import License from "./steps/License";
-import { AssetItem } from "../../types";
+import { AssetItem, PROCCESSID, TagType } from "../../types";
 import { FormProvider, useForm } from "react-hook-form";
+import { AO_MODULE, AO_SCHEDULER, TAGS } from "../../utils/config";
+import { useWallet } from "../../context/WalletContext";
+import { connect, createDataItemSigner } from "@permaweb/aoconnect";
+import { fetchUserByAddress } from "../../api/user";
+import { fileToBuffer } from "../../utils/utils";
 
 type FormProps = {};
 
@@ -13,6 +18,11 @@ const Form: React.FC<FormProps> = () => {
   const [isLastStep, setIsLastStep] = useState(false);
   const [isFirstStep, setIsFirstStep] = useState(false);
   const [validation, setValidation] = useState<boolean>(false);
+  const [submiting, setSubmiting] = useState<boolean>(false);
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const { activeAddress } = useWallet();
 
   const methods = useForm<AssetItem>({
     defaultValues: {
@@ -32,10 +42,6 @@ const Form: React.FC<FormProps> = () => {
   const { watch } = methods;
 
   const asset = watch();
-
-  useEffect(() => {
-    console.log("asset:", asset);
-  });
 
   const validateFields = () => {
     if (activeStep === 0) {
@@ -81,6 +87,158 @@ const Form: React.FC<FormProps> = () => {
     }
   };
 
+  const handleUploadAsset = async () => {
+    setSubmiting(true);
+
+    let assetError = null;
+    let uploadedAssetsList: string[] = [];
+    if (activeAddress) {
+      const dateTime = new Date().getTime().toString();
+
+      const title = asset.title;
+      const description = asset.description;
+      const type = asset.file[0].type;
+      const balance = 1;
+
+      try {
+        const assetTags: TagType[] = [
+          { name: TAGS.keys.contentType, value: type },
+          { name: TAGS.keys.creator, value: activeAddress },
+          { name: TAGS.keys.ans110.title, value: title },
+          { name: TAGS.keys.ans110.description, value: description },
+          { name: TAGS.keys.ans110.type, value: type },
+          { name: TAGS.keys.ans110.implements, value: TAGS.values.ansVersion },
+          { name: TAGS.keys.dateCreated, value: dateTime },
+          { name: "Action", value: "Add-Uploaded-Asset" },
+        ];
+
+        if (asset.license !== "") {
+          assetTags.push({
+            name: TAGS.keys.license,
+            value: TAGS.values.license,
+          });
+          assetTags.push({
+            name: TAGS.keys.currency,
+            value: TAGS.values.licenseCurrency,
+          });
+        }
+        if (asset.proof !== "") {
+          assetTags.push({ name: "Proof", value: asset.proof });
+        }
+
+        const aos = connect();
+
+        let atomic_asset_src = null;
+
+        let temp = await fetch(`public/atmoic-assets-src.text`);
+        if (temp.ok) {
+          atomic_asset_src = await temp.text();
+        }
+        const res = await fetchUserByAddress(activeAddress);
+
+        if (atomic_asset_src && res) {
+          atomic_asset_src = atomic_asset_src.replace(
+            "[Owner]",
+            `['${res.PID}']`
+          );
+          atomic_asset_src = atomic_asset_src.replaceAll(
+            `'<NAME>'`,
+            `[[${title}]]`
+          );
+          atomic_asset_src = atomic_asset_src.replaceAll("<TICKER>", "ATOMIC");
+          atomic_asset_src = atomic_asset_src.replaceAll("<DENOMINATION>", "1");
+          atomic_asset_src = atomic_asset_src.replaceAll(
+            "<BALANCE>",
+            balance.toString()
+          );
+          atomic_asset_src = atomic_asset_src.replace(
+            "Transferable = true",
+            "Transferable = false"
+          );
+        }
+
+        let data: any = await fileToBuffer(asset.file[0]);
+
+        console.log("buffer:", data);
+        let processId: string | null = null;
+        let retryCount = 0;
+        const maxRetries = 25;
+
+        console.log("wallet: ", window.arweaveWallet);
+        while (!processId && retryCount < maxRetries) {
+          try {
+            processId = await aos.spawn({
+              module: AO_MODULE,
+              scheduler: AO_SCHEDULER,
+              signer: createDataItemSigner(window.arweaveWallet),
+              tags: assetTags,
+              data: data,
+            });
+            console.log(`Asset process: ${processId}`);
+            setSubmiting(false);
+          } catch (e: any) {
+            console.error(`Spawn attempt ${retryCount + 1} failed:`, e);
+            retryCount++;
+            if (retryCount < maxRetries) {
+              await new Promise((r) => setTimeout(r, 1000));
+            } else {
+              throw new Error(
+                `Failed to spawn process after ${maxRetries} attempts`
+              );
+            }
+          }
+        }
+
+        while (true) {
+          try {
+            if (processId && atomic_asset_src) {
+              const evalMessage = await aos.message({
+                process: processId,
+                signer: createDataItemSigner(window.arweaveWallet),
+                tags: [{ name: "Action", value: "Eval" }],
+                data: atomic_asset_src,
+              });
+              console.log("evalMessage:", evalMessage);
+
+              const evalResult = await aos.result({
+                message: evalMessage,
+                process: processId,
+              });
+              console.log("evalResult:", evalResult);
+
+              if (evalResult && res) {
+                await aos.message({
+                  process: processId,
+                  signer: createDataItemSigner(window.arweaveWallet),
+                  tags: [
+                    { name: "Action", value: "Add-Asset-To-Profile" },
+                    { name: "ProfileProcess", value: res.PID },
+                    { name: "Quantity", value: balance.toString() },
+                  ],
+                  data: JSON.stringify({ Id: processId, Quantity: balance }),
+                });
+                console.log("Asset added to profile");
+                uploadedAssetsList.push(processId);
+                console.log("uploadedAssetsList:", uploadedAssetsList);
+                break;
+              } else {
+                console.log("No evalResult, retrying...");
+              }
+            } else {
+              console.log("Error fetching from gateway");
+              break;
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <>
       <FormProvider {...methods}>
@@ -104,6 +262,16 @@ const Form: React.FC<FormProps> = () => {
             >
               Next
             </button>
+
+            {isLastStep && (
+              <button
+                className={`px-4 py-2 bg-black text-white rounded disabled:opacity-50 `}
+                onClick={handleUploadAsset}
+                // disabled={isLastStep || !validation}
+              >
+                Submit
+              </button>
+            )}
           </div>
           <div className="hidden xl:block absolute w-[60vh] top-0 left-0 right-0 bottom-0 mt-20">
             <div className="absolute inset-0 flex items-center rotate-90 ">
