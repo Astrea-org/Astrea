@@ -14,3 +14,11 @@ export interface callProofGenProps {
   title: string;
   data: string;
 }
+
+export interface addDataToDBProps {
+  PID: string;
+  Owner: string;
+  OwnerId: string;
+  Username: string;
+  Content_Type: string;
+}

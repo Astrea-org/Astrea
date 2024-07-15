@@ -1,6 +1,7 @@
 import { createDataItemSigner, dryrun, message } from "@permaweb/aoconnect";
-import { PROCCESSID, UserProfile } from "../types";
 import toast from "react-hot-toast";
+import { UserProfile } from "../pages/Profile/types";
+import { PROCCESSID } from "../utils/config";
 
 export const fetchUserByAddress = async (
   wallet_address: string
