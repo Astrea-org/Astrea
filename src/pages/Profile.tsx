@@ -5,8 +5,10 @@ import { fetchUserByAddress } from "../api/user";
 import { UserProfile } from "../types";
 import { PROCCESSID } from "../types";
 import { useWallet } from "../context/WalletContext";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-function Profile() {
+export default function Profile() {
   const { activeAddress } = useWallet();
   const [isFetching, setIsFetching] = useState(false);
   const [username, setUsername] = useState("");
@@ -70,7 +72,49 @@ function Profile() {
   }, [activeAddress]);
 
   if (isFetching) {
-    return <div className="bg-white min-h-screen mt-52">Loading...</div>;
+    return (
+      <div className="bg-white min-h-screen mt-52">
+        <div className="max-w-screen-xl px-4 py-8 mx-auto mt-24">
+          <div className="flex justify-between">
+            <div className="flex gap-4">
+              <Skeleton
+                circle={true}
+                height={112}
+                width={112}
+                baseColor="#d1d5db"
+              />
+              <div className="mt-6">
+                <p className="text-lg font-bold">
+                  <Skeleton width={100} baseColor="#d1d5db" />
+                </p>
+                <p>
+                  <Skeleton width={200} baseColor="#d1d5db" />
+                </p>
+              </div>
+            </div>
+            <div>
+              <Skeleton width={120} height={40} baseColor="#d1d5db" />
+            </div>
+          </div>
+          <div className="mt-12">
+            <p className="text-lg font-bold">
+              <Skeleton width={80} baseColor="#d1d5db" />
+            </p>
+            <p className="mt-2">
+              <Skeleton count={3} baseColor="#d1d5db" />
+            </p>
+          </div>
+          <div className="mt-12">
+            <p className="text-lg font-bold">
+              <Skeleton width={100} baseColor="#d1d5db" />
+            </p>
+            <p className="mt-2">
+              <Skeleton count={2} baseColor="#d1d5db" />
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -87,7 +131,7 @@ function Profile() {
                 />
                 <div className="mt-6">
                   <p className="text-lg font-bold">@{profile.username}</p>
-                  <p>{profile.wallet_address}</p>
+                  <p>{profile.wallet_address || <Skeleton />}</p>
                 </div>
               </div>
               <div>
@@ -157,5 +201,3 @@ function Profile() {
     </>
   );
 }
-
-export default Profile;
