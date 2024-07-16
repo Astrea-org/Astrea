@@ -131,7 +131,7 @@ const Form: React.FC<FormProps> = () => {
 
         let atomic_asset_src = null;
 
-        let temp = await fetch(`public/atmoic-assets-src.text`);
+        let temp = await fetch(`/atmoic-assets-src.text`);
         if (temp.ok) {
           atomic_asset_src = await temp.text();
         }
@@ -264,6 +264,7 @@ const Form: React.FC<FormProps> = () => {
       }
     }
   };
+
   return (
     <div className="bg-white">
       {submiting ? (
