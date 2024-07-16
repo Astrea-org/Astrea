@@ -12,11 +12,7 @@ export const UploadComplete = ({ txId }: { txId: string }) => {
           {`https://viewblock.io/arweave/tx/${txId}`}
         </a>
       </div>
-      <img
-        src="src/assets/dumdums.gif"
-        alt="loading"
-        className="mt-auto w-[80vw]"
-      />
+      <img src="/dumdums.gif" alt="loading" className="mt-auto w-[80vw]" />
     </div>
   );
 };

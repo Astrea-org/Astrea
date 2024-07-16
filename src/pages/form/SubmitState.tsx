@@ -4,11 +4,7 @@ export const SubmitState = () => {
       <span className="text-black p-10 text-2xl font-semibold shadow-md mt-52 rounded">
         Your data is being uploaded!
       </span>
-      <img
-        src="src/assets/dumdums.gif"
-        alt="loading"
-        className="mt-auto w-[80vw]"
-      />
+      <img src="/dumdums.gif" alt="loading" className="mt-auto w-[80vw]" />
     </div>
   );
 };
