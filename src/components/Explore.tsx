@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa6";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+import { LuDatabase } from "react-icons/lu";
 import { CiWallet } from "react-icons/ci";
 import { categories } from "../utils/data/cards";
 
@@ -22,44 +21,27 @@ function Explore() {
 
   return (
     <>
-      <div className="bg-white pt-12">
-        <div className="my-auto px-5 lg:px-24 gap-4 lg:gap-10 ">
+      <div className="bg-[#0F0F0F] text-white pt-12">
+        <div className="my-auto px-5 lg:px-24 gap-4 lg:gap-10 pb-48">
           <div>
             <div className="flex justify-between">
-              <h1 className="text-2xl font-bold">Top Datasets</h1>
-              <div className="flex gap-2">
-                <button className="p-2 border border-gray-300">
-                  Show More
-                </button>
-                <div className="flex gap-1">
-                  <button className="px-2 py-1  bg-gray-200">
-                    <IoIosArrowBack />
-                  </button>
-                  <button className="px-2 py-1 bg-gray-200">
-                    <IoIosArrowForward />
-                  </button>
-                </div>
-              </div>
+              <h1 className="text-3xl font-bold">What we offer</h1>
             </div>
             <div className="mt-8 pb-12">
-              <div className="bg-white shadow-lg w-52">
-                <img
-                  src="https:/images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  alt=""
-                  className="w-full h-auto "
-                />
-                <div className="flex justify-between px-2">
-                  <p className="p-2 font-semibold">Cats</p>
-                  <span className="mt-2 flex gap-2">
-                    <FaRegHeart className="mt-1" />
-                    324
-                  </span>
+              <div className="bg-gray-600 shadow-lg w-[400px] p-6 rounded-xl">
+                <div>
+                  <LuDatabase size={22} />
+                  <h2 className="text-xl font-bold mt-2">Permanent</h2>
+                  <p className="">
+                    Decentralized, immutable, and globally replicated electronic
+                    data storage that can never be deleted.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-100">
+          <div className="bg-gradient-to-b from-purple-300 to-black border-gray-600 border rounded-xl">
             <div className="py-12 px-28 flex justify-between">
               <div className="mt-24">
                 <h1 className="text-2xl font-bold">Get started!</h1>
@@ -97,7 +79,7 @@ function Explore() {
             </div>
           </div>
 
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <div>
               <h1 className="text-2xl font-bold">Browse by Categories</h1>
             </div>
@@ -123,7 +105,7 @@ function Explore() {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
