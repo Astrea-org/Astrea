@@ -219,15 +219,9 @@ const Form: React.FC<FormProps> = () => {
                   ],
                   data: JSON.stringify({ Id: processId, Quantity: balance }),
                 });
-                await addAssetToDB({
-                  PID: processId,
-                  Owner: activeAddress,
-                  OwnerId: res.PID,
-                  Username: res.username,
-                  Content_Type: type,
-                });
 
                 uploadedAssetsList.push(processId);
+
                 console.log("uploadedAssetsList:", uploadedAssetsList);
                 break;
               } else {
@@ -241,6 +235,28 @@ const Form: React.FC<FormProps> = () => {
             console.error("Error:", error);
           }
 
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
+
+        while (true) {
+          try {
+            if (processId && res) {
+              await addAssetToDB({
+                PID: processId,
+                Owner: activeAddress,
+                OwnerId: res.PID,
+                Username: res.username,
+                Content_Type: type,
+              });
+              console.log("Uploaded to DB");
+              break;
+            } else {
+              console.log("Error fetching from gateway");
+              break;
+            }
+          } catch (error) {
+            console.log(error);
+          }
           await new Promise((resolve) => setTimeout(resolve, 2000));
         }
       } catch (error) {
