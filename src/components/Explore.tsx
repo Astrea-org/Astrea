@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa6";
 import { LuDatabase } from "react-icons/lu";
 import { CiWallet } from "react-icons/ci";
-import { categories } from "../utils/data/cards";
 
 function Explore() {
   const [activeAddress, setActiveAddress] = useState<string | null>(null);
