@@ -3,140 +3,64 @@ local sqlite3 = require('lsqlite3')
 db = db or sqlite3.open_memory()
 dbAdmin = require('@rakis/DbAdmin').new(db)
 
-USERS = [[
-  CREATE TABLE IF NOT EXISTS Users (
+ATOMIC_ASSETS = [[
+  CREATE TABLE IF NOT EXISTS Assets (
     PID TEXT PRIMARY KEY,
-    wallet_address TEXT,
-    username TEXT,
-    profile_img TEXT,
-    bio TEXT
+    Owner TEXT,
+    OwnerId TEXT,
+    Username TEXT,
+    Content_Type Text
   );
 ]]
 
 function InitDb()
-    db:exec(USERS)
+    db:exec(ATOMIC_ASSETS)
     return dbAdmin:tables()
 end
 
 InitDb()
 
-Handlers.add("AssetX.Register",
+-- Add-Asset Handler
+Handlers.add("AssetX.Add",
     function(msg)
-        return msg.Action == "Register"
+        return msg.Action == "Add"
     end,
     function(msg)
-        -- get user count
-        local userCount = #dbAdmin:exec(
-            string.format([[select * from Users where PID = "%s";]], msg.From)
+        local assetCount = #dbAdmin:exec(
+            string.format([[SELECT * FROM Assets WHERE PID = "%s";]], msg.PID)
         )
-        if userCount > 0 then
-            Send({ Target = msg.From, Action = "Registered", Data = "Already Registered" })
-            print("User already registered")
-            return "Already Registered"
+        if assetCount > 0 then
+            Send({ Target = msg.From, Action = "AssetX.Added", Data = "Asset Already Exists" })
+            print("Asset already exists")
+            return "Asset Already Exists"
         end
         dbAdmin:exec(string.format([[
-      INSERT INTO Users (PID, wallet_address, username, profile_img, bio) VALUES ("%s", "%s", "%s", "%s", "%s");
-    ]], msg.From, msg.wallet_address, msg.username or 'anon', msg.profile_img or '', msg.bio or ''))
+      INSERT INTO Assets (PID, Owner, OwnerId, Username, Content_Type) VALUES ("%s", "%s", "%s", "%s", "%s");
+    ]], msg.PID, msg.Owner, msg.OwnerId, msg.Username or 'anon', msg.Content_Type or ''))
         Send({
             Target = msg.From,
-            Action = "AssetX.Registered",
-            Data = "Successfully Registered."
+            Action = "AssetX.Added",
+            Data = "Asset Successfully Added."
         })
-        print("Registered " .. msg.username or "anon")
     end
 )
 
-Handlers.add('AssetX.get-profile-by-wallet-address',
-    function(msg)
-        return msg.Action == "get-profile-by-wallet-address"
+Handlers.add("AssetX.ListAllAssets", function(msg)
+        return msg.Action == "ListAllAssets"
     end,
     function(msg)
-        local query = "SELECT * FROM Users WHERE wallet_address = ?;"
-        local profile = nil
-
-        local stmt = db:prepare(query)
-        if stmt then
-            stmt:bind_values(msg.wallet_address)
-            for row in stmt:nrows() do
-                profile = {
-                    PID = row.PID,
-                    wallet_address = row.wallet_address,
-                    username = row.username,
-                    profile_img = row.profile_img,
-                    bio = row.bio
-                }
-            end
-            stmt:finalize()
-        else
-            print("Failed to prepare statement for wallet_address: " .. msg.wallet_address)
-        end
-
-        if profile then
-            local profile_json = json.encode(profile)
-            Send({
-                Target = msg.From,
-                Action = "AssetX.get-profile-by-wallet-address",
-                Data = profile_json
+        local assets = {}
+        for row in db:nrows([[SELECT * FROM Assets]]) do
+            table.insert(assets, {
+                PID = row.PID,
+                Owner = row.Owner,
+                OwnerId = row.OwnerId,
+                Username = row.Username,
+                Content_Type = row.Content_Type
             })
-            print("Profile found for wallet_address: " .. profile_json)
-        else
-            Send({
-                Target = msg.From,
-                Action = "AssetX.get-profile-by-wallet-address",
-                Data = json.encode({ error = "Profile not found" })
-            })
-            print("Profile not found for wallet_address: " .. msg.wallet_address)
         end
-    end
-)
-
-Handlers.add('AssetX.update-profile',
-    function(msg)
-        return msg.Action == "update-profile"
-    end,
-    function(msg)
-        local updates = {}
-        print("Update Profile")
-        print(json.encode(msg))
-        if msg.username then
-            table.insert(updates, string.format('username = "%s"', msg.username))
-        end
-        if msg.profile_img then
-            table.insert(updates, string.format('profile_img = "%s"', msg.profile_img))
-        end
-        if msg.bio then
-            table.insert(updates, string.format('bio = "%s"', msg.bio))
-        end
-        if #updates > 0 then
-            local update_query = string.format([[
-        UPDATE Users SET %s WHERE wallet_address = "%s";
-      ]], table.concat(updates, ', '), msg.wallet_address)
-
-            local result, err = dbAdmin:exec(update_query)
-
-            if result then
-                Send({
-                    Target = msg.From,
-                    Action = "AssetX.update-profile",
-                    Data = "Profile updated successfully."
-                })
-                print("Profile updated for wallet_address: " .. msg.wallet_address)
-            else
-                Send({
-                    Target = msg.From,
-                    Action = "AssetX.update-profile",
-                    Data = "Profile update failed: " .. (err or "unknown error")
-                })
-                print("Profile update failed for wallet_address: " ..
-                    msg.wallet_address .. " Error: " .. (err or "unknown error"))
-            end
-        else
-            Send({
-                Target = msg.From,
-                Action = "AssetX.update-profile",
-                Data = "No updates provided."
-            })
-            print("No updates provided for wallet_address: " .. msg.wallet_address)
-        end
+        local assets_json = json.encode(assets)
+        print("Listing all assets: " .. assets_json)
+        Send({ Target = msg.From, Action = "AssetX.ListAllAssets", Data = assets_json })
     end
 )

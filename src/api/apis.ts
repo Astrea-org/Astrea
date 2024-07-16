@@ -1,13 +1,7 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { addDataToDBProps } from "./types";
-import {
-  createDataItemSigner,
-  dryrun,
-  message,
-  result,
-} from "@permaweb/aoconnect";
+import { createDataItemSigner, message, result } from "@permaweb/aoconnect";
 import { PROCCESSID } from "../utils/config";
-import toast from "react-hot-toast";
 
 export const fetchProcesses = async (address: string) => {
   if (!window.arweaveWallet) return;
@@ -73,8 +67,7 @@ export const addAssetToDB = async ({
       process: PROCCESSID.assetxDb,
       tags: [
         { name: "Target", value: "ao.id" },
-        { name: "Action", value: "get-profile-by-wallet-address" },
-        { name: "PID", value: PID },
+        { name: "Action", value: "Add" },
         { name: "PID", value: PID },
         { name: "Owner", value: Owner },
         { name: "OwnerId", value: OwnerId },
@@ -87,16 +80,10 @@ export const addAssetToDB = async ({
       message: mid,
       process: PROCCESSID.assetxDb,
     });
+    console.log(res);
     const data = res.Messages[0].Data;
-    if (typeof data === "string") {
-      const asset = JSON.parse(data);
-      if (asset.PID) {
-        toast.success("Profile registered successfully!");
-        return asset;
-      } else {
-        console.log("Asset not found.");
-      }
-    }
+
+    return data;
   } catch (err) {
     console.error("Error occurred:", err);
   }

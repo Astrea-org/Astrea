@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { createDataItemSigner, message } from "@permaweb/aoconnect";
 import toast from "react-hot-toast";
 import { fetchUserByAddress } from "../../api/user";
-import { PROCCESSID } from "../../types";
 import { useWallet } from "../../context/WalletContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { fetchProcesses } from "../../api/apis";
 import { Loading } from "./Loading";
 import { ProccessItem, UserProfile } from "./types";
+import { PROCCESSID } from "../../utils/config";
 
 export default function Profile() {
   const { activeAddress } = useWallet();

@@ -62,6 +62,17 @@ export const TAGS = {
   },
 };
 
+export enum PROCCESSID {
+  profile = "iJ8bCUv-RGfWYF-fiGS_A_4d7fUtSwy9su9IcS48n2c",
+  assetSrc = "2ZDuM2VUCN8WHoAKOOjiH4_7Apq0ZHKnTWdLppxCdGY",
+  assetxDb = "aIUubYMhqljSmoPxydPHtRQ7A2_EiuaQUHMUz9bXWnE",
+}
+
+export const CONTENT_TYPES = {
+  json: "application/json",
+  mp4: "video/mp4",
+  textPlain: "text/plain",
+};
 export const DEFAULT_BANNER = "eXCtpVbcd_jZ0dmU2PZ8focaKxBGECBQ8wMib7sIVPo";
 export const DEFAULT_THUMBNAIL = "lJovHqM9hwNjHV5JoY9NGWtt0WD-5D4gOqNL2VWW5jk";
 
