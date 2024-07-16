@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Form from "./pages/form/Form";
-import LandingPage from "./pages/explore/LandingPage";
+import LandingPage from "./pages/explore/Explore";
 import Profile from "./pages/Profile/Profile";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
@@ -25,7 +25,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/add-asset" element={<Form />} />
             <Route path="/assets" element={<LandingPage />} />
-            <Route path="/asset/:id" element={<Asset />} />
+            <Route path="/assets/:id" element={<Asset />} />
             <Route path="/explore" element={<LandingPage />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>

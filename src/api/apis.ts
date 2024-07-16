@@ -1,6 +1,11 @@
 import { GraphQLClient, gql } from "graphql-request";
 import { addDataToDBProps } from "./types";
-import { createDataItemSigner, message, result } from "@permaweb/aoconnect";
+import {
+  createDataItemSigner,
+  dryrun,
+  message,
+  result,
+} from "@permaweb/aoconnect";
 import { PROCCESSID } from "../utils/config";
 
 export const fetchProcesses = async (address: string) => {
@@ -84,6 +89,25 @@ export const addAssetToDB = async ({
     const data = res.Messages[0].Data;
 
     return data;
+  } catch (err) {
+    console.error("Error occurred:", err);
+  }
+  return null;
+};
+
+export const getAssetFromDB = async () => {
+  try {
+    const Messages = await dryrun({
+      process: PROCCESSID.assetxDb,
+      tags: [
+        { name: "Target", value: "ao.id" },
+        { name: "Action", value: "ListAllAssets" },
+      ],
+      signer: createDataItemSigner(window.arweaveWallet),
+    });
+    const data = Messages.Messages;
+    const assets = data.map((message: any) => JSON.parse(message.Data));
+    return assets;
   } catch (err) {
     console.error("Error occurred:", err);
   }
