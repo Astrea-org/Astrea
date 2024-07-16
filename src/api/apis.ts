@@ -1,5 +1,5 @@
-import { GraphQLClient, gql } from "graphql-request";
-import { addDataToDBProps } from "./types";
+import { GraphQLClient, GraphQLResponse, gql } from "graphql-request";
+import { addDataToDBProps, ExtractedTags, Tag, Transaction } from "./types";
 import {
   createDataItemSigner,
   dryrun,
@@ -52,6 +52,118 @@ export const fetchProcesses = async (address: string) => {
 
   console.log(data);
   return data;
+};
+
+export const fetchTransaction = async (txId: string) => {
+  if (!window.arweaveWallet) return;
+  const client = new GraphQLClient("https://arweave.net/graphql");
+
+  const query = gql`
+    query {
+      transactions(
+        ids: "${txId}"
+        first: 100
+      ) {
+        pageInfo {
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
+            id
+            tags {
+              name
+              value
+            }
+            data {
+              size
+              type
+            }
+            owner {
+              address
+            }
+            block {
+              height
+              timestamp
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const res: any = await client.request(query);
+  function extractTags(tags: Tag[]): ExtractedTags {
+    const extractedTags: ExtractedTags = {};
+    tags.forEach((tag) => {
+      switch (tag.name) {
+        case "Content-Type":
+          extractedTags.contentType = tag.value;
+          break;
+        case "Creator":
+          extractedTags.creator = tag.value;
+          break;
+        case "Title":
+          extractedTags.title = tag.value;
+          break;
+        case "Description":
+          extractedTags.description = tag.value;
+          break;
+        case "Implements":
+          extractedTags.implements = tag.value;
+          break;
+        case "Date-Created":
+          extractedTags.dateCreated = tag.value;
+          break;
+        case "Action":
+          extractedTags.action = tag.value;
+          break;
+        case "License":
+          extractedTags.license = tag.value;
+          break;
+        case "Currency":
+          extractedTags.currency = tag.value;
+          break;
+        case "Proof":
+          extractedTags.proof = tag.value;
+          break;
+        case "Data-Protocol":
+          extractedTags.dataProtocol = tag.value;
+          break;
+        case "Variant":
+          extractedTags.variant = tag.value;
+          break;
+        case "Type":
+          extractedTags.type = tag.value;
+          break;
+        case "Module":
+          extractedTags.module = tag.value;
+          break;
+        case "Scheduler":
+          extractedTags.scheduler = tag.value;
+          break;
+        case "SDK":
+          extractedTags.sdk = tag.value;
+          break;
+        default:
+          break;
+      }
+    });
+    return extractedTags;
+  }
+
+  function extractData(response: GraphQLResponse): Transaction[] {
+    const transactions = (response as any).transactions;
+    return transactions.edges.map((edge: any) => {
+      const { tags, ...rest } = edge.node;
+      const extractedTags = extractTags(tags);
+      return { ...rest, extractedTags };
+    });
+  }
+
+  const extractedData = extractData(res as GraphQLResponse);
+  console.log("ex:", extractedData);
+  return extractedData;
 };
 
 export const fetchDataArweave = async (txId: string) => {
