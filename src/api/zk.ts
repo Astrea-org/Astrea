@@ -15,7 +15,7 @@ interface VerifyProofRequest {
 }
 
 interface VerifyProofResponse {
-  result: string;
+  result: any;
 }
 
 const BASE_URL = import.meta.env.VITE_API_URL;
