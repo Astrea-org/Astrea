@@ -12,12 +12,11 @@ export const UploadComplete = ({ txId }: { txId: string }) => {
           {`https://viewblock.io/arweave/tx/${txId}`}
         </a>
       </div>
-      <video className="mt-auto" autoPlay muted playsInline loop>
-        <source
-          src="https://github.com/AssetX-org/AssetX/blob/0b16e4b0b92fa541dc51ba6bc41a035c64059049/src/assets/dumdum.mp4"
-          type="video/mp4"
-        />
-      </video>
+      <img
+        src="src/assets/dumdums.gif"
+        alt="loading"
+        className="mt-auto w-[80vw]"
+      />
     </div>
   );
 };
