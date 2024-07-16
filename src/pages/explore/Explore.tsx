@@ -56,7 +56,7 @@ export default function Explore() {
                 ) : (
                   <div className="h-[30vh] flex flex-col bg-gray-100 p-5 rounded-xl-t">
                     <img
-                      src="public/images/empty.png"
+                      src="/images/empty.png"
                       alt="empty"
                       className="w-[8vw] h-[8vw] mx-auto rounded-xl-t"
                     />

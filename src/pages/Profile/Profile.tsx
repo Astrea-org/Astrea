@@ -120,7 +120,7 @@ export default function Profile() {
                       ) : (
                         <div className="w-[18vw] h-[18vw] flex flex-col bg-gray-100 p-5">
                           <img
-                            src="public/images/empty.png"
+                            src="/images/empty.png"
                             alt="empty"
                             className="w-[10vw] h-[10vw] mx-auto"
                           />
