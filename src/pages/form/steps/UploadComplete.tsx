@@ -13,7 +13,7 @@ export const UploadComplete = ({ txId }: { txId: string }) => {
         </a>
       </div>
       <video className="mt-auto" autoPlay muted playsInline loop>
-        <source src="public/dumdum.mp4" type="video/mp4" />
+        <source src="src/assets/dumdum.mp4" type="video/mp4" />
       </video>
     </div>
   );
