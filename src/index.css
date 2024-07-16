@@ -4,15 +4,15 @@
 
 @font-face {
     font-family: "Poppins Regular";
-    src: url("/fonts/poppins.regular.ttf");
+    src: url("./assets/fonts/poppins.regular.ttf");
   }
   
   @font-face {
     font-family: "Poppins Thin";
-    src: url("/fonts/poppins.thin.ttf");
+    src: url("./assets/fonts/poppins.regular.ttf");
   }
   
   @font-face {
     font-family: "Poppins SemiBold";
-    src: url("/fonts/poppins.semibold.ttf");
+    src: url("./assets/fonts/poppins.regular.ttf");
   }
