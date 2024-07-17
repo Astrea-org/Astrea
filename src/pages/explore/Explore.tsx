@@ -1,7 +1,7 @@
 import { TbListDetails } from "react-icons/tb";
 import { getAssetFromDB } from "../../api/apis";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AssetItem } from "./types";
 
 export default function Explore() {
@@ -31,12 +31,12 @@ export default function Explore() {
             <p className="max-w-[380px] mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
               Get secure data!
             </p>
-            <a
-              href="/add-asset"
+            <Link
+              to="/add-asset"
               className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 :text-white"
             >
               Get Started 🚀
-            </a>
+            </Link>
           </div>
         </div>
         <div className="max-w-screen-xl px-4 py-8 mx-auto">

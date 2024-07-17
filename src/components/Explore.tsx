@@ -4,6 +4,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import { CiWallet } from "react-icons/ci";
 import { categories } from "../utils/data/cards";
+import { Link } from "react-router-dom";
 
 function Explore() {
   const [activeAddress, setActiveAddress] = useState<string | null>(null);
@@ -104,8 +105,8 @@ function Explore() {
             <div className="mt-12 pb-8">
               <div className="grid grid-cols-1 md:grid-cols-4">
                 {categories.map((category) => (
-                  <a
-                    href="/"
+                  <Link
+                    to="/"
                     key={category.id}
                     className="bg-white shadow-lg w-52"
                   >
@@ -119,7 +120,7 @@ function Explore() {
                         {category.name}
                       </p>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

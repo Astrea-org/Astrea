@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { GlassButton } from "../components/GlassButton";
+import { Link } from "react-router-dom";
 
 export default function HeroSection() {
   return (
@@ -16,13 +17,13 @@ export default function HeroSection() {
           hub.
         </div>
         <div className="z-30 flex lg:flex-row md:gap-10 gap-2 text-white">
-          <a href="/assets" className="">
+          <Link to="/assets" className="">
             <GlassButton content="Explore" />
-          </a>
+          </Link>
 
-          <a href="/add-asset" className="whitespace-nowrap">
+          <Link to="/add-asset" className="whitespace-nowrap">
             <GlassButton content="Create Asset" />
-          </a>
+          </Link>
         </div>
       </div>
       <div className="hidden lg:flex absolute h-screen w-full overflow-clip">

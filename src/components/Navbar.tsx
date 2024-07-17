@@ -3,7 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { CgProfile } from "react-icons/cg";
 import { useWallet } from "../context/WalletContext";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [scroll, setScroll] = useState(false);
@@ -42,7 +42,7 @@ export default function Navbar() {
             : "text-black bg-white"
         }`}
       >
-        <a href="/" className="flex flex-row gap-4 text-xl items-center">
+        <Link to="/" className="flex flex-row gap-4 text-xl items-center">
           <div className="relative w-10 h-10">
             <img
               src={`
@@ -57,16 +57,16 @@ export default function Navbar() {
             />
           </div>
           AssetX
-        </a>
+        </Link>
         <div className="hidden lg:flex flex-row items-center text gap-10 font-poppinsThin">
-          <a href="" target="_blank">
+          <Link to="https://github.com/AssetX-org" target="_blank">
             Github
-          </a>
-          <a href="" target="_blank">
+          </Link>
+          <Link to="https://github.com/AssetX-org" target="_blank">
             Documentation
-          </a>
-          <a href="#features">Features</a>
-          <a href="/">Whitepaper</a>
+          </Link>
+          <Link to="#features">Features</Link>
+          <Link to="/">Whitepaper</Link>
         </div>
         <div className="hidden lg:block">
           {!activeAddress ? (
@@ -111,11 +111,11 @@ export default function Navbar() {
                   }`}
                 >
                   <MenuItem>
-                    <a href="/profile">
+                    <Link to="/profile">
                       <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3">
                         Profile
                       </button>
-                    </a>
+                    </Link>
                   </MenuItem>
                   <MenuItem>
                     <button
@@ -140,25 +140,33 @@ export default function Navbar() {
         <div
           className={`lg:hidden flex flex-col items-center text-black py-4 font-bold`}
         >
-          <a href="" target="_blank" className="py-2">
+          <Link
+            to="https://github.com/AssetX-org"
+            target="_blank"
+            className="py-2"
+          >
             Github
-          </a>
-          <a href="" target="_blank" className="py-2">
+          </Link>
+          <Link
+            to="https://github.com/AssetX-org"
+            target="_blank"
+            className="py-2"
+          >
             Documentation
-          </a>
-          <a href="#features" className="py-2">
+          </Link>
+          <Link to="#features" className="py-2">
             Features
-          </a>
-          <a href="/" className="py-2">
+          </Link>
+          <Link to="/" className="py-2">
             Whitepaper
-          </a>
-          <a
-            href=""
+          </Link>
+          <Link
+            to=""
             target="_blank"
             className="bg-white shadow-md hover:bg-gray-200 transition-all shadow-white text-black text-center font-poppinsThin rounded-xl px-10 py-2 text-lg mt-4 w-3/4"
           >
             Connect Wallet
-          </a>
+          </Link>
         </div>
       )}
     </div>
