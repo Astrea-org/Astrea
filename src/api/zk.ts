@@ -18,7 +18,7 @@ interface VerifyProofResponse {
   result: any;
 }
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = "https://43.205.87.51.nip.io";
 
 export const generateProof = async (
   reqData: ProofGenRequest
